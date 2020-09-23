@@ -1,12 +1,13 @@
 <template>
   <div>
-12321
+ 个人中心
   </div>
 </template>
 
 <script>
   export default {
     layout:'layouthd'
+    
   }
 </script>
 
