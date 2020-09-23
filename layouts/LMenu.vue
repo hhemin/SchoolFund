@@ -26,10 +26,9 @@
       </div>
 
       <div id="navbarBasicExample" class="navbar-menu" :class="active?'is-active':''">
-        <div class="navbar-start">
-          <nuxt-link class="navbar-item" to="/">Home</nuxt-link>
-          <nuxt-link class="navbar-item" to="/me">me</nuxt-link>
-          <a class="navbar-item">Documentation</a>
+        <div class="navbar-start" @click="openmune">
+          <nuxt-link class="navbar-item" :to="item.router" v-for="(item,index) in menu" :key="index">{{item.name}}</nuxt-link>
+          <!-- <a class="navbar-item">Documentation</a>
 
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">More</a>
@@ -41,7 +40,7 @@
               <hr class="navbar-divider" />
               <a class="navbar-item">Report an issue</a>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="navbar-end">
@@ -63,17 +62,28 @@
 
 <script>
 /***
- * @name 头部导航
+ * @name 头部导航😎
  * */
 export default {
-  name: "layouthd",
+  name: "LMenu",
   data() {
     return {
       active: false,
+      menu:[
+        {
+          name: 'home',
+          router: '/'
+        },
+        {
+          name: 'me',
+          router: '/me'
+        }
+      ]
     };
   },
   methods: {
     openmune() {
+      console.log(this.$router)
       this.active = !this.active;
     },
   },
