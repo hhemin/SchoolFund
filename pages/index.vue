@@ -5,6 +5,8 @@
       <h1 class="title">
         SchoolFund
       </h1>
+      <button class="button">
+</button>
       <div class="links">
         <a
           href="https://nuxtjs.org/"
@@ -30,7 +32,9 @@
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  
+})
 </script>
 
 <style>
