@@ -36,5 +36,6 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 ## 框架
 [bulma css](https://bulma.zcopy.site/documentation/) 1px = 0.0625rem
+[nuxt 2.14版中文教程](https://www.bookstack.cn/read/nuxtjs-2.14-zh/Prologue.md)
 
 
