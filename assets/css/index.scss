@@ -1,3 +1,9 @@
+:root {
+  --deepColor:#141726;
+  --bgColor:#171c2b;
+  --mainColor:#252a44;
+}
+
 .headtop {
   padding-top: 3.75rem;
 }
@@ -9,3 +15,32 @@
 .box {
   box-sizing: border-box;
 }
+
+.flex {
+  display: flex;
+}
+
+.borderColor {
+  box-sizing: border-box;
+  margin: 5px;
+  border: 5px solid #141826;
+}
+// 主题颜色
+.bgColor {
+  color: #f4f9ff;
+  background-color: var(--bgColor);
+}
+.fc {
+  color: #f4f9ff;
+}
+.deepColor{
+  background-color: var(--deepColor);
+}
+.mainColor {
+  background-color: var(--mainColor);
+}
+html,body {
+  background-color: var(--mainColor);
+  color: #6d87a8;
+}
+

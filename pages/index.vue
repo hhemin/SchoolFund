@@ -1,60 +1,77 @@
 <template>
-  <div>
-    <div class="columns main box">
-      <div class="column is-6  headtop left">
-        <div class="kmap">
-          <no-ssr placeholder="Loading...">
+  <div class="columns main box mainColor">
+    <div class="column is-9 headtop left">
+      <div class="kmap card bgColor">
+        <no-ssr placeholder="Loading...">
           <component :is="K"></component>
-          </no-ssr>
-        </div>
-        <div>
-          <button class="button">买入</button>
-        </div>
+        </no-ssr>
       </div>
-      <div class="column center">2</div>
-      <div class="column is-3 right">3</div>
+      <div class="moneyinfo columns">
+        <component :is="Buy" class="column card bgColor" style="margin: 10px 10px 0 0"></component>
+        <component :is="Sell" class="column card bgColor" style="margin: 10px 0 0"></component>
+        <!-- <div class="column card" style="margin: 10px 0 0">1</div> -->
+      </div>
+    </div>
+    <div class="column rightbox headtop main bgColor">
+      <component class="earn" :is="Info"></component>
+      <component class="deficit" :is="Info"></component>
     </div>
   </div>
 </template>
 
 <script>
-import K from '@/components/map/k'
+import K from "@/components/map/k";
+import Info from "@/components/home/info";
+import Buy from "@/components/home/buy";
+import Sell from "@/components/home/sell"
 // @name 股市
-  export default {
-    layout:'LMenu',
-    data() {
-      return {
-        K,
-      }
-    }
-    // components: {
-    //   K
-    // }
-  }
+export default {
+  layout: "LMenu",
+  data() {
+    return {
+      K,
+      Buy,
+      Sell,
+      Info
+    };
+  },
+  components: {
+    Info,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.main {
-  background-color: yellowgreen !important;
-  width: 100%;
-  // height: 100vh;
-  // min-height: 100vh;
+.columns {
   margin: 0 !important;
   padding: 0 !important;
+}
+.main {
+  height: 100vh;
+  width: 100%;
   .left {
-    height: 100vh;
-    background-color: blue;
+    min-height: 100vh;
+    // background-color: blue;
     .kmap {
-      height: 50vh;
-      background: yellow;
+      height: calc(100vh - 320px);
+      // background-color: blue;
+    }
+    .moneyinfo {
+      // background-color: yellow;
     }
   }
-  .center {
-    height: 100vh;
-  }
-  .right {
-    height: 100vh;
-    background-color: yellow;
+  .rightbox {
+    // height: calc(100%-20px);
+    .earn {
+      width: 100%;
+      height: 50%;
+      overflow: auto;
+    }
+    .deficit {
+      width: 100%;
+      height: 50%;
+      overflow: auto;
+    }
   }
 }
 </style>
