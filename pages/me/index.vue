@@ -32,11 +32,11 @@ export default {
       cards: [
         {
           title: "总资产",
-          amount: 2200,
+          amount: 1000000,
         },
         {
           title: "浮动盈亏",
-          amount: 2200,
+          amount: '+2200',
         },
         {
           title: "总市值",
@@ -44,7 +44,7 @@ export default {
         },
         {
           title: "当日参考盈亏",
-          amount: 100,
+          amount: '-100',
         },
       ],
       username:'巴韭特'
@@ -67,10 +67,11 @@ export default {
   }
 }
 .info {
-  margin: 0 auto;
-  max-width: 1200px !important;
+  margin: 0;
+  /* max-width: 1200px !important; */
 }
 .card.column {
-  margin: 10px;
+  margin:1rem;
+  padding: 0;
 }
 </style>

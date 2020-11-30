@@ -1,19 +1,20 @@
 <template>
   <div class="card">
-    <h1>{{card.title}}</h1>
-    <p>{{card.amount}}</p>
+    <div class="card-content">
+      <h1 class="title">{{ card.title }}</h1>
+      <p class="amount">{{ card.amount }}</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props:{
-    card:{
-      type:Object,
-      required:true
-    }
+  props: {
+    card: {
+      type: Object,
+      required: true,
+    },
   },
-  
 };
 </script>
 
@@ -21,5 +22,19 @@ export default {
 .card {
   padding: 1rem;
   height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .card-content {
+    .title {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .amount {
+      text-align: center;
+      font-size: 1.5rem;
+    }
+  }
 }
 </style>
