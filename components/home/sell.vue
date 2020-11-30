@@ -21,7 +21,6 @@ export default {};
 
 <style lang="scss" scoped>
 ::-webkit-input-placeholder { color:#f4f9ff; }
-::-moz-placeholder { color:#f4f9ff; } /* firefox 19+ */
-:-ms-input-placeholder { color:#f4f9ff; } /* ie */
-input:-moz-placeholder { color:#f4f9ff; }
+// ::-moz-placeholder { color:#f4f9ff; } /* firefox 19+ */
+// :-ms-input-placeholder { color:#f4f9ff; } /* ie */
 </style>

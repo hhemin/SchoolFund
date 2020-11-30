@@ -1,7 +1,7 @@
 <template>
     <no-ssr placeholder="Loading...">
       <!-- ve-candle 组件只会在客户端被渲染 -->
-      <ve-candle :data="chartData" :settings="chartSettings"  height="100%"/>
+      <ve-candle :data="chartData" :extend="barExtend" :settings="chartSettings" height="100%" />
     </no-ssr>
 </template>
 
@@ -14,7 +14,18 @@ export default {
       showVol: true
     }
     return {
+      barExtend: {
+        xAxis:{
+          axisLine: { lineStyle: { color: '#8392A5' } }
+        },
+        yAxis:{
+         axisLine: { lineStyle: { color: '#8392A5' } }
+        }
+      },
       chartData: {
+        textStyle: {
+          color: "#fff"
+        },
         columns: ["日期", "open", "close", "lowest", "highest", "vol"],
         rows: [
           {
@@ -322,7 +333,14 @@ export default {
             vol: 200050000,
           },
         ],
-           
+        // itemStyle:{
+        //   xAxis: {
+        //   axisLine: { lineStyle: { color: 'red' } }
+        // },
+        // },
+        // xAxis: {
+        //   axisLine: { lineStyle: { color: 'red' } }
+        // },
       },
     };
   },

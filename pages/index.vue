@@ -1,77 +1,75 @@
 <template>
-  <div class="columns main box mainColor">
-    <div class="column is-9 headtop left">
-      <div class="kmap card bgColor">
-        <no-ssr placeholder="Loading...">
-          <component :is="K"></component>
-        </no-ssr>
-      </div>
-      <div class="moneyinfo columns">
-        <component :is="Buy" class="column card bgColor" style="margin: 10px 10px 0 0"></component>
-        <component :is="Sell" class="column card bgColor" style="margin: 10px 0 0"></component>
-        <!-- <div class="column card" style="margin: 10px 0 0">1</div> -->
-      </div>
-    </div>
-    <div class="column rightbox headtop main bgColor">
-      <component class="earn" :is="Info"></component>
-      <component class="deficit" :is="Info"></component>
-    </div>
+  <div class="container headtop">
+    <component class="headtop table-container" :is="JTable" :tablehead="tablehead" :tablebody="tablebody"></component>
   </div>
 </template>
 
 <script>
-import K from "@/components/map/k";
-import Info from "@/components/home/info";
-import Buy from "@/components/home/buy";
-import Sell from "@/components/home/sell"
+import JTable from '@/components/common/table' 
 // @name 股市
 export default {
-  layout: "LMenu",
-  data() {
-    return {
-      K,
-      Buy,
-      Sell,
-      Info
-    };
-  },
-  components: {
-    Info,
-  },
+   layout:'LMenu',
+   data() {
+     return {
+       JTable,
+       tablehead:[
+         {
+           label:"币种",
+           param: "order",
+         },
+         {
+           label:"最新价格",
+           param:"nowmoney",
+         },
+         {
+           label:"最高价格",
+           param:"heightprice",
+         },
+         {
+           label:"最低价格",
+           param:"lowestprice",
+         },
+         {
+           label:"涨幅",
+           param:"Increase",
+         },
+         {
+           label:"24小时成交额度",
+           param:"Turnover",
+         },
+         {
+           label:"24小时成交量",
+           param:"amount",
+         },
+       ],
+       tablebody:[
+         {
+           order: "B特币",
+           nowmoney: "123123",
+           heightprice:"9000000",
+           lowestprice:"1",
+           Increase:"99%",
+           Turnover:"10000000000000",
+           amount:"2389012830912"
+         }
+       ],
+       tableOption:[
+        {
+          label:"详情",
+          options:[
+            {
+              
+            }
+          ]
+        }
+       ]
+     }
+   }
 };
 </script>
 
 <style lang="scss" scoped>
-.columns {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-.main {
-  height: 100vh;
+.container {
   width: 100%;
-  .left {
-    min-height: 100vh;
-    // background-color: blue;
-    .kmap {
-      height: calc(100vh - 320px);
-      // background-color: blue;
-    }
-    .moneyinfo {
-      // background-color: yellow;
-    }
-  }
-  .rightbox {
-    // height: calc(100%-20px);
-    .earn {
-      width: 100%;
-      height: 50%;
-      overflow: auto;
-    }
-    .deficit {
-      width: 100%;
-      height: 50%;
-      overflow: auto;
-    }
-  }
 }
 </style>
