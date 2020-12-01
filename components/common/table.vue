@@ -24,6 +24,7 @@
 <script>
 /**
  * @name 表格
+ *
  * */
 export default {
   props: {
