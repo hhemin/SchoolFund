@@ -1,6 +1,6 @@
 <template>
   <div class="container headtop">
-    <component class="headtop table-container" :is="JTable" :tablehead="tablehead" :tablebody="tablebody"></component>
+    <component class="table-container" :is="JTable" :tablehead="tablehead" :tablebody="tablebody"></component>
   </div>
 </template>
 
