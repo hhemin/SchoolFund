@@ -1,4 +1,5 @@
 :root {
+  --headerColor: #1b2a46;
   --deepColor:#141726;
   --bgColor:#171c2b;
   --mainColor:#252a44;
@@ -9,7 +10,7 @@
 }
 
 .nuxt-link-exact-active.active-link {
-  color: red !important;
+  color: #e7e8eb !important;
 }
 
 .box {
@@ -39,8 +40,21 @@
 .mainColor {
   background-color: var(--mainColor);
 }
+.headerColor {
+  background-color: var(--headerColor);
+}
 html,body {
   background-color: var(--mainColor);
   color: #6d87a8;
+}
+
+// 修改主题颜色
+.navbar-item, .navbar-link {
+  color: #aeb9d8;
+}
+@media screen and (max-width: 1023px) {
+.navbar-menu {
+  background-color: var(--headerColor);
+}
 }
 

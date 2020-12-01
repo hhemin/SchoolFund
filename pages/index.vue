@@ -1,13 +1,17 @@
 <template>
-  <div class="container headtop">
+  <div class="table-container headtop">
+
     <component class="headtop table-container" :is="JTable" :tablehead="tablehead" :tablebody="tablebody"></component>
+    <button @click="fn">默认按钮</button>
   </div>
 </template>
 
 <script>
 import JTable from '@/components/common/table' 
+import button from '~/components/common/button.vue';
 // @name 股市
 export default {
+  components: { button },
    layout:'LMenu',
    data() {
      return {
@@ -63,6 +67,14 @@ export default {
           ]
         }
        ]
+     }
+   },
+   methods: {
+     fn() {
+       this.$axios.get('http://localhost:3001/api/users').then((res)=> {
+         console.log(res)
+       })
+       console.log(8888)
      }
    }
 };
