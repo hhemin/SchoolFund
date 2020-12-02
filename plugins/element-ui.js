@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import {
   Message,
+  Pagination
 } from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 
 const components = [
   Message,
+  Pagination
 ];
 
 const Element = {

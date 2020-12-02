@@ -1,11 +1,13 @@
 <template>
   <div class="container headtop">
     <component class="table-container" :is="JTable" :tablehead="tablehead" :tablebody="tablebody"></component>
+    <Page :alldata="1000"></Page>
   </div>
 </template>
 
 <script>
 import JTable from '@/components/common/table' 
+import Page from '@/components/common/pagination'
 import {getFn} from '../utils/api'
 // @name 股市
 export default {
@@ -71,6 +73,9 @@ export default {
        let v = getFn()
        console.log(v)
      }
+   },
+   components: {
+     Page
    }
 };
 </script>
