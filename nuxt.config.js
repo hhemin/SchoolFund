@@ -27,12 +27,8 @@ export default {
     { src: '@/plugins/vcharts.js', mode: 'client' },
     { src: '@/plugins/vcharts.js', mode: 'server' },
     { src: "@/plugins/element-ui"},
-    { src: '@/plugins/axios'}
   ],
 
-  axios: {
-    baseURL: development ? 'http://localhost:3001/api' : 'https://hmepay.cn/api'
-  },
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
@@ -46,7 +42,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     '@nuxtjs/bulma',
-    '@nuxtjs/axios',
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

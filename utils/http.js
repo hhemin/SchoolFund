@@ -3,7 +3,7 @@ import axios from 'axios';
 // import { baseUrl } from './env'; // 导入环境
 import storageUtil from '../assets/js/storage'; // 缓存
 import { Message,Loading } from 'element-ui';
-import router from '../router/index'
+// import router from '../router/index'
 
 /**
  * 请求失败后的错误统一处理
@@ -16,9 +16,9 @@ const errorHandle = (status, other) => {
     // 未登录状态，跳转登录页
     case 202:
       Loading.service().close();
-      router.replace({
-        path: '/Login',        
-      });
+      // router.replace({
+      //   path: '/Login',        
+      // });
       break;
     // 404请求不存在
     case 404:
@@ -36,7 +36,7 @@ const errorHandle = (status, other) => {
 // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // 创建axios实例
 const service = axios.create({
-  baseURL: '', // api的base_url
+  baseURL: 'http://localhost:3001/api', // api的base_url
   // timeout: 15000, // 请求超时时间2s
   // headers: {
   //   'Accept': 'application/json',
