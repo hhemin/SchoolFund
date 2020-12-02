@@ -38,11 +38,16 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary">
-              <strong>Sign up</strong>
-            </a>
-            <a class="button is-light">Log in</a>
+          <div class="buttons">              
+            <!-- <a class="button is-primary">
+              <strong>注册</strong>
+            </a> -->
+            <nuxt-link class="button is-primary" :to="{name: 'login-id', params:{id: 'register'}}">
+              <strong>注册</strong>
+            </nuxt-link>
+            <nuxt-link class="button is-light" to="/login">
+              <strong>登录</strong>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -60,11 +65,11 @@ export default {
       active: false,
       menu: [
         {
-          name: "home",
+          name: "首页",
           router: "/",
         },
         {
-          name: "me",
+          name: "个人中心",
           router: "/me",
         },
       ],
@@ -72,7 +77,6 @@ export default {
   },
   methods: {
     openmune() {
-      console.log(this.$router);
       this.active = !this.active;
     },
   },

@@ -28,6 +28,12 @@ import Register from '@/components/login/register'
       Form,
       Register
     },
+    created() {
+      if(this.$route.params.id === 'register') {
+        this.routername = false
+      }
+      // console.log( this.$route.params.id)
+    },
     methods: {
       register() {
         this.routername = !this.routername
