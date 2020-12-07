@@ -9,13 +9,13 @@
         {{ item.label }}
       </div>
     </div>
-    <div class="trade-item" v-for="(item, index) in tableData" :key="index">
+    <div class="trade-item" v-for="(item, index) in tablebody" :key="index">
       <p :class="[item.isBuy ? 'label-buy' : 'label']">{{ item.label }}</p>
       <p class="num"><span class="m-span">数量：</span>{{ item.num }}</p>
       <p class="quota"><span class="m-span">限额：</span>{{ item.quota }}</p>
       <p class="price"><span class="m-span">单价：</span>{{ item.price }} CNY</p>
       <div class="control">
-        <button class="button">购买USDT</button>
+        <button class="button" @click="gotoDetail(item.id)">{{buttonLabel}}</button>
       </div>
     </div>
   </div>
@@ -40,6 +40,11 @@ export default {
         return [];
       },
     },
+    buttonLabel:{
+      type:String,
+      default:'',
+      required: true
+    }
   },
   data() {
     return {
@@ -78,6 +83,12 @@ export default {
       ],
     };
   },
+  methods:{
+    gotoDetail(id){
+      console.log(id)
+      this.$router.push({path:'details',query:{id}})
+    }
+  }
 };
 </script>
 
@@ -103,10 +114,10 @@ export default {
       color: #0da88b;
     }
     .label {
-      color: red;
+      color: green;
     }
     .label-buy {
-      color: green;
+      color: red;
     }
     .button {
       background-color: #357ce1;

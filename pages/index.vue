@@ -1,6 +1,6 @@
 <template>
   <div class="container headtop">
-    <component class="table-container" :is="JTable" :tablehead="tablehead" :tablebody="tablebody"></component>
+    <component class="table-container" :is="JTable" :tablehead="tablehead" :tablebody="tableData" buttonLabel="购买USDT" ></component>
     <Page :alldata="1000"></Page>
   </div>
 </template>
@@ -45,17 +45,35 @@ export default {
            param:"amount",
          },
        ],
-       tablebody:[
-         {
-           order: "B特币",
-           nowmoney: "123123",
-           heightprice:"9000000",
-           lowestprice:"1",
-           Increase:"99%",
-           Turnover:"10000000000000",
-           amount:"2389012830912"
-         }
-       ],
+      //  tablebody:[
+      //    {
+      //      order: "B特币",
+      //      nowmoney: "123123",
+      //      heightprice:"9000000",
+      //      lowestprice:"1",
+      //      Increase:"99%",
+      //      Turnover:"10000000000000",
+      //      amount:"2389012830912"
+      //    }
+      //  ],
+      tableData: [
+        {
+          id:1,
+          label: "王者爱仕达",
+          num: 39967.965828,
+          quota: "100,000.00-258,193.00",
+          price: 6.46,
+          isBuy: false,
+        },
+        {
+          id:2,
+          label: "王者爱仕达",
+          num: 39967.965828,
+          quota: "100,000.00-258,193.00",
+          price: 6.46,
+          isBuy: true,
+        },
+      ],
        tableOption:[
         {
           label:"详情",
