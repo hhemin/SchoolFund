@@ -12,6 +12,9 @@
 <script>
 import FormInput from './input'
 import Button from '../common/button'
+import {Login} from '../../utils/api'
+import { Message,Loading } from 'element-ui'
+import storageUtil from '../../assets/js/storage'; // 缓存
 export default {
   name: "Form",
   data() {
@@ -39,9 +42,31 @@ export default {
     };
   },
   methods: {
-    pullLogin() {
+    async pullLogin() {
       this.btn.isloading = true
-      console.log(this.btn)
+      let _v = []
+      this.formdata.forEach((item)=> {
+        _v.push(item.value)
+      })
+      let datavalue = {
+        account:_v[0],
+        password:_v[1]
+      }
+      try {
+       let v = await Login(datavalue)
+       this.btn.isloading = false
+       if(v.code === 200) {
+         Message({
+            showClose: true,
+            message: '登录成功',
+            type: 'success'
+         });
+         storageUtil.put('token',v.data)
+       }
+      } catch (error) {
+        console.log(error)
+        this.btn.isloading = false
+      }
       setTimeout(()=> {
         this.btn.isloading = false
         console.log(this.btn)

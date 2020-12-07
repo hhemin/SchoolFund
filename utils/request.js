@@ -1,29 +1,28 @@
 import server from './http'
 
 class Request {
-  static async getFn({url='',token = true} = {}) {
+  static async getFn({url='',tokenbool = true} = {}) {
     try {
-      let auth = token? {
-        username:localStorage.getItem('token')
-      }:''
       return await server({
         method: 'get',
         url,
+        headers: {
+          token:tokenbool?localStorage.getItem('token'):''
+        },
         auth
       }) 
     } catch(err) {
       throw err
     }
   }
-  static async postFn({url='',token = true,data = ''} ={}) {
+  static async postFn({url='',tokenbool = true,data = '',loading = false} ={}) {
     try {
-      let auth = token? {
-        username:localStorage.getItem('token')
-      }:''
       return await server({
         method: 'post',
         url,
-        auth,
+        headers: {
+          token:tokenbool?localStorage.getItem('token'):''
+        },
         data
       })
     }catch(err) {

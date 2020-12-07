@@ -16,8 +16,8 @@ var storageUtil = {
         if (!localStorage) {
           return false;
         }
-        var cacheVal = {val: data};
-        localStorage.setItem(key, JSON.stringify(cacheVal));//存入缓存值
+        // var cacheVal = {val: data};
+        localStorage.setItem(key, data);//存入缓存值
     } catch (e) {
     }
   },
@@ -27,9 +27,9 @@ var storageUtil = {
             return false;
         }
         var cacheVal = localStorage.getItem(key);
-        var result = JSON.parse(cacheVal);
+        // var result = JSON.parse(cacheVal);
         //缓存不存在
-        if (!result) {
+        if (!cacheVal) {
           console.log('不存在啦')
           return null;
         }
@@ -39,7 +39,7 @@ var storageUtil = {
         //     this.remove(key);
         //     return "";
         // }
-        return result.val;
+        return cacheVal;
     } catch (e) {
         this.remove(key);
         return null;

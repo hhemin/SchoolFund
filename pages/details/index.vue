@@ -3,7 +3,12 @@
     <div class="column is-9 headtop left">
       <div class="kmap card bgColor">
         <no-ssr placeholder="Loading...">
-          <component :is="K"></component>
+          <component :is="mapchart"></component>
+          <div class="change">
+            <div class="change-tiem" @click="changefn">
+             切换 {{changename}} 图 
+            </div>
+          </div>
         </no-ssr>
       </div>
       <div class="moneyinfo columns">
@@ -21,22 +26,37 @@
 
 <script>
 import K from "@/components/map/k";
+import TimeK from '@/components/map/time'
 import Info from "@/components/home/info";
 import Buy from "@/components/home/buy";
 import Sell from "@/components/home/sell"
+// import Button from '~/components/common/button.vue';
 // @name 股市
 export default {
   layout:'LMenu',
   data() {
     return {
       K,
+      TimeK,
+      mapchart:TimeK,
       Buy,
       Sell,
-      Info
+      Info,
+      changename:'k'
     };
   },
+  created() {
+    console.log(this.$router.params)
+  },
+  methods: {
+    changefn() {
+      this.changename = (this.changename === 'k') ? 'time':'k';
+      this.mapchart = (this.mapchart === TimeK )? K:TimeK;
+    }
+  },
   components: {
-    Info,
+    Info
+    // Button,
   },
 };
 </script>
@@ -72,6 +92,25 @@ export default {
       height: 50%;
       overflow: auto;
     }
+  }
+}
+.change {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  transform: translateY(-50px);
+  .change-tiem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid;
+    // width: 100%;
+    cursor: pointer;
+    text-align: center;
   }
 }
 </style>

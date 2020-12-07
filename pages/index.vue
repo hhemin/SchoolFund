@@ -8,7 +8,6 @@
 <script>
 import JTable from '@/components/common/table' 
 import Page from '@/components/common/pagination'
-import {getFn} from '../utils/api'
 // @name 股市
 export default {
    layout:'LMenu',
@@ -69,10 +68,7 @@ export default {
      }
    },
    methods: {
-     fn() {
-       let v = getFn()
-       console.log(v)
-     }
+     
    },
    components: {
      Page

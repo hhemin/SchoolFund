@@ -1,9 +1,13 @@
 import request from './request';
 
-const getFn = async (data) => {
-  return await request.getFn({url:'/users',token:false})
+const Login = async (data) => {
+  return await request.postFn({
+    url:'/api/web/login',
+    data,
+    token:false
+  })
 }
 
 export {
-  getFn
+  Login
 }
