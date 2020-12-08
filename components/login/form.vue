@@ -67,10 +67,10 @@ export default {
         console.log(error)
         this.btn.isloading = false
       }
-      setTimeout(()=> {
-        this.btn.isloading = false
-        console.log(this.btn)
-      },2000)
+      // setTimeout(()=> {
+      //   this.btn.isloading = false
+      //   console.log(this.btn)
+      // },2000)
     }
   },
   components: {

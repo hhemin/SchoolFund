@@ -6,9 +6,9 @@ class Request {
       return await server({
         method: 'get',
         url,
-        headers: {
-          token:tokenbool?localStorage.getItem('token'):''
-        },
+        // headers: {
+        //   token:tokenbool?localStorage.getItem('token'):''
+        // },
         auth
       }) 
     } catch(err) {
@@ -20,9 +20,9 @@ class Request {
       return await server({
         method: 'post',
         url,
-        headers: {
-          token:tokenbool?localStorage.getItem('token'):''
-        },
+        // headers: {
+        //   token:tokenbool?localStorage.getItem('token'):''
+        // },
         data
       })
     }catch(err) {
