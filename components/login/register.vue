@@ -13,7 +13,7 @@
 import FormInput from "./input";
 import Button from "../common/button";
 import { Message } from 'element-ui';
-import {Register} from '../../utils/api'
+import { Register } from '../../utils/api'
 export default {
   name: "register",
   data() {
@@ -72,23 +72,28 @@ export default {
         return
       }
       if(this.formdata[2].value !== this.formdata[3].value){
-        console.log('a')
+        Message.error('密码不相同');
         this.btn.isloading = false
         return
       }
-      console.log('aaa')
       let data = {
         account:this.formdata[0].value,
         password:this.formdata[2].value,
         userName:this.formdata[1].value
       }
-      const res = await Register(data)
-      console.log(res)
-      this.btn.isloading = false
-      // setTimeout(()=> {
-      //   this.btn.isloading = false
-      //   console.log(this.btn)
-      // },2000)
+      try {
+        const res = await Register(data)
+        if(res.code === 200){
+          Message.success('注册成功')
+        }else{
+          Message.error(res.message)
+        }
+        this.btn.isloading = false
+      } catch (error) {
+        console.log(error)
+        this.btn.isloading = false
+      }
+      
     },
   },
   components: {
