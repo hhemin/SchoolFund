@@ -63,7 +63,7 @@ service.interceptors.request.use(
     // token && (config.headers.token = token);
     // config.data = qs.stringify(config.data);
     // config.headers.token = token
-    config.tokenbool?config.headers.Authorization = storageUtil.get("token"):''
+    config.tokenbool?config.headers.Authorization = storageUtil.get("token"):'';
     console.log(config)
     return config;
     // if (true) { // 需自定义

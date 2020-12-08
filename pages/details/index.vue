@@ -57,7 +57,7 @@ export default {
     console.log(this.$router.params);
   },
   mounted() {
-    this.websocket();
+    // this.websocket();
 
   },
   methods: {

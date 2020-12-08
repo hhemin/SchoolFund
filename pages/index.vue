@@ -87,7 +87,7 @@ export default {
      }
    },
    created() {
-     this.getDatalist();
+    //  this.getDatalist();
    },
    methods: {
      async getDatalist() {
