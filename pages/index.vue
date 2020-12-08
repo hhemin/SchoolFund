@@ -8,6 +8,7 @@
 <script>
 import JTable from '@/components/common/table' 
 import Page from '@/components/common/pagination'
+import {GetMonName} from '@/utils/api'
 // @name 股市
 export default {
    layout:'LMenu',
@@ -85,8 +86,21 @@ export default {
        ]
      }
    },
+   created() {
+     this.getDatalist();
+   },
    methods: {
-     
+     async getDatalist() {
+      try {
+        let b = await GetMonName({
+          limit: 10,
+          page: 1
+        })
+        console.log(b)
+      }catch(err) {
+
+      }
+     }
    },
    components: {
      Page

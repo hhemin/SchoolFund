@@ -9,7 +9,7 @@ class Request {
         headers: {
         //   token:tokenbool?localStorage.getItem('token'):''
         },
-        auth
+        tokenbool
       }) 
     } catch(err) {
       throw err
@@ -23,7 +23,8 @@ class Request {
         headers: {
         //   token:tokenbool?localStorage.getItem('token'):''
         },
-        data
+        data,
+        tokenbool
       })
     }catch(err) {
       throw err

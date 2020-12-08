@@ -16,7 +16,16 @@ const Register = async (data) => {
   })
 }
 
+const GetMonName = async (data) => {
+  return await request.postFn({
+    url: '/api/public/currency/query',
+    data,
+    // tokenbool: true
+  })
+}
+
 export {
   Login,
-  Register
+  Register,
+  GetMonName
 }

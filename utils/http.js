@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import qs from 'qs';// 引入qs模块，用来序列化post类型的数据
 // import { baseUrl } from './env'; // 导入环境
-// import storageUtil from '../assets/js/storage'; // 缓存
+import storageUtil from '../assets/js/storage'; // 缓存
 import { Message,Loading } from 'element-ui';
 // import router from '../router/index'
 
@@ -62,6 +62,8 @@ service.interceptors.request.use(
     // const token = storageUtil.get("token");
     // token && (config.headers.token = token);
     // config.data = qs.stringify(config.data);
+    // config.headers.token = token
+    config.tokenbool?config.headers.Authorization = storageUtil.get("token"):''
     console.log(config)
     return config;
     // if (true) { // 需自定义
