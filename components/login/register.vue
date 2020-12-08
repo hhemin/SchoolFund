@@ -12,13 +12,21 @@
 <script>
 import FormInput from "./input";
 import Button from "../common/button";
+import { Message } from 'element-ui';
+import {Register} from '../../utils/api'
 export default {
   name: "register",
   data() {
     return {
       formdata: [
         {
-          labelname: "用户名",
+          labelname: "账号",
+          placeholder: "输入账号",
+          dangerBool: false,
+          value: "",
+        },
+        {
+          labelname:"用户名",
           placeholder: "输入用户名称",
           dangerBool: false,
           value: "",
@@ -46,18 +54,47 @@ export default {
     };
   },
   methods: {
-    register() {
-      console.log(this.form);
+    async register() {
       this.btn.isloading = true
-      setTimeout(()=> {
+      if(this.formdata[0].value.length === 0){
+        Message.error('请输入账号');
         this.btn.isloading = false
-        console.log(this.btn)
-      },2000)
+        return
+      }
+      if(this.formdata[1].value.length === 0){
+        Message.error('请输入用户名');
+        this.btn.isloading = false
+        return
+      }
+      if(this.formdata[2].value.length === 0 || this.formdata[3].value.length === 0){
+        Message.error('请输入密码');
+        this.btn.isloading = false
+        return
+      }
+      if(this.formdata[2].value !== this.formdata[3].value){
+        console.log('a')
+        this.btn.isloading = false
+        return
+      }
+      console.log('aaa')
+      let data = {
+        account:this.formdata[0].value,
+        password:this.formdata[2].value,
+        userName:this.formdata[1].value
+      }
+      const res = await Register(data)
+      console.log(res)
+      this.btn.isloading = false
+      // setTimeout(()=> {
+      //   this.btn.isloading = false
+      //   console.log(this.btn)
+      // },2000)
     },
   },
   components: {
     FormInput,
-    Button
+    Button,
+    Message
   }
 };
 </script>
