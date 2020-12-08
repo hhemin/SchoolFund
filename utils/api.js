@@ -8,6 +8,15 @@ const Login = async (data) => {
   })
 }
 
+const Register = async (data) => {
+  return await request.postFn({
+    url:'/api/web/register',
+    data,
+    tokenbool:false
+  })
+}
+
 export {
-  Login
+  Login,
+  Register
 }

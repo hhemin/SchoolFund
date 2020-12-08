@@ -6,23 +6,23 @@ class Request {
       return await server({
         method: 'get',
         url,
-        // headers: {
+        headers: {
         //   token:tokenbool?localStorage.getItem('token'):''
-        // },
+        },
         auth
       }) 
     } catch(err) {
       throw err
     }
   }
-  static async postFn({url='',tokenbool = true,data = '',loading = false} ={}) {
+  static async postFn({url='',tokenbool = true,data = ''} ={}) {
     try {
       return await server({
         method: 'post',
         url,
-        // headers: {
+        headers: {
         //   token:tokenbool?localStorage.getItem('token'):''
-        // },
+        },
         data
       })
     }catch(err) {
