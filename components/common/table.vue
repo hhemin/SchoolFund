@@ -103,6 +103,7 @@ export default {
     margin: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #e6ecf2;
+    font-size: 14px;
     .m-span{
       margin-right: 16px;
       color: #9aa5b5;
@@ -115,6 +116,8 @@ export default {
     }
     .label {
       color: green;
+      margin-bottom: 0;
+      font-size: 14px;
     }
     .label-buy {
       color: red;
