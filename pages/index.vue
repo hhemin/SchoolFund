@@ -9,7 +9,7 @@
 import JTable from '@/components/common/table' 
 import Page from '@/components/common/pagination'
 import {GetMonName} from '@/utils/api'
-// @name 股市 1
+// @name 股市
 export default {
    layout:'LMenu',
    data() {
