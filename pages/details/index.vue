@@ -38,6 +38,9 @@ import TimeK from "@/components/map/time";
 import Info from "@/components/home/info";
 import Buy from "@/components/home/buy";
 import Sell from "@/components/home/sell";
+import {Sockt} from '@/assets/js/websockt'
+
+
 // import Button from '~/components/common/button.vue';
 // @name 股市
 export default {
@@ -58,11 +61,11 @@ export default {
   },
   mounted() {
     // this.websocket();
-
+    this.getSockFn()
   },
   methods: {
     websocket() {
-      let ws = new WebSocket("ws://http://192.168.43.253:8080/websocket/10");
+      let ws = new WebSocket("ws://192.168.43.253:8080/webSocket/10");
       ws.onopen = () => {
         // Web Socket 已连接上，使用 send() 方法发送数据
         ws.send("Holle");
@@ -72,14 +75,18 @@ export default {
         console.log(evt);
         // console.log('数据已接收...')
       };
-      ws.onclose = function () {
-        // 关闭 websocket
-        console.log("连接已关闭...");
-      };
+      // ws.onclose = function () {
+      //   // 关闭 websocket
+      //   console.log("连接已关闭...");
+      // };
       // 路由跳转时结束websocket链接
       this.$router.afterEach(function () {
         ws.close();
       });
+    },
+    getSockFn() {
+      let s = new Sockt();
+      s.oncreated({url:'www.baidu.com',id:'12312'})
     },
     changefn() {
       this.changename = this.changename === "k" ? "time" : "k";

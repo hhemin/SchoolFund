@@ -86,8 +86,8 @@ export default {
        ]
      }
    },
-   created() {
-    //  this.getDatalist();
+   mounted() {
+     this.getDatalist();
    },
    methods: {
      async getDatalist() {
@@ -96,11 +96,10 @@ export default {
           limit: 10,
           page: 1
         })
-        console.log(b)
       }catch(err) {
-
+        console.log(err)
       }
-     }
+     },
    },
    components: {
      Page

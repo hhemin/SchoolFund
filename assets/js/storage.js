@@ -23,15 +23,16 @@ var storageUtil = {
   },
   get: function (key) {
     try {
-        if (!localStorage) {
-            return false;
-        }
+        // if (!localStorage) {
+        //   console.log(1)
+        //     return false;
+        // }
         var cacheVal = localStorage.getItem(key);
         // var result = JSON.parse(cacheVal);
         //缓存不存在
         if (!cacheVal) {
           console.log('不存在啦')
-          return null;
+          return false;
         }
         // if (now > result.exp) {
         //   // Toast('重新登陆啦！！！');
@@ -41,8 +42,10 @@ var storageUtil = {
         // }
         return cacheVal;
     } catch (e) {
+      console.log(2)
+
         this.remove(key);
-        return null;
+        return false;
     }
   },
   // 设置时间的

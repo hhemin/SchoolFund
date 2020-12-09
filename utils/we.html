@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button onclick="fn()">连接和接收</button>
+  <button onclick="closeFn()">关闭</button>
+  <div id="main"></div>
+  <script>
+    var ws = new WebSocket("ws://192.168.43.253:8080/webSocket/10");
+    function fn() {
+      ws.onopen = function()
+      {
+        let p = document.createElement('p')
+        p.innerHTML = '发送数据啦'
+        // Web Socket 已连接上，使用 send() 方法发送数据
+        ws.send("web发送数据");
+        document.getElementById('main').appendChild(p) 
+      };
+      ws.onmessage = function (evt) 
+      { 
+        // 发送信息
+        let received_msg = evt.data;
+        let p = document.createElement('p')
+        p.innerHTML = evt.data
+        console.log(evt)
+        document.getElementById('main').appendChild(p) 
+      };
+    }
+    
+
+    function closeFn() {
+      ws.onclose = function()
+      { 
+        var p = document.createElement('p');
+        p.innerHTML = '连接已关闭...'
+        document.getElementById('main').appendChild(p) 
+      };
+    }
+  </script>
+  
+</body>
+</html>

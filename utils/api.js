@@ -18,7 +18,7 @@ const Register = async (data) => {
 
 const GetMonName = async (data) => {
   return await request.postFn({
-    url: '/api/public/currency/query',
+    url: '/api/web/currency/query',
     data,
     // tokenbool: true
   })
@@ -27,5 +27,5 @@ const GetMonName = async (data) => {
 export {
   Login,
   Register,
-  GetMonName
+  GetMonName,
 }

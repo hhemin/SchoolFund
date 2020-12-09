@@ -1,11 +1,12 @@
 import server from './http'
 
 class Request {
-  static async getFn({url='',tokenbool = true} = {}) {
+  static async getFn({url='',tokenbool = true,data = ''} = {}) {
     try {
       return await server({
         method: 'get',
         url,
+        data,
         headers: {
         //   token:tokenbool?localStorage.getItem('token'):''
         },

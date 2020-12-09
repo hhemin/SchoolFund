@@ -38,11 +38,9 @@ const errorHandle = (status, other) => {
 const service = axios.create({
   baseURL: 'http://192.168.43.253:8080', // api的base_url
   // timeout: 15000, // 请求超时时间2s
-  // headers: {
-  //   'Accept': 'application/json',
-  //   'Access-Control-Allow-Origin': '*',
-  //   'Content-Type': 'application/x-www-form-urlencoded',
-  // },
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+  },
 });
 
 /** 
@@ -63,7 +61,12 @@ service.interceptors.request.use(
     // token && (config.headers.token = token);
     // config.data = qs.stringify(config.data);
     // config.headers.token = token
-    config.tokenbool?config.headers.Authorization = storageUtil.get("token"):'';
+    // console.log(window.$nuxt)
+    if(config.tokenbool) {
+      console.log(storageUtil.get("token"))
+      config.headers.Authorization = storageUtil.get("token")?storageUtil.get("token"):window.$nuxt.$router.push({path:'login'})
+    }
+    // config.tokenbool?config.headers.Authorization = storageUtil.get("token"):'';
     console.log(config)
     return config;
     // if (true) { // 需自定义
