@@ -3,20 +3,32 @@
     <div class="trade-header">
       <div
         class="trade-header-item"
-        v-for="(item, index) in tableHead"
+        v-for="(item, index) in tablehead"
         :key="index"
       >
         {{ item.label }}
       </div>
     </div>
-    <div class="trade-item" v-for="(item, index) in tablebody" :key="index">
-      <p :class="[item.isBuy ? 'label-buy' : 'label']">{{ item.label }}</p>
-      <p class="num"><span class="m-span">数量：</span>{{ item.num }}</p>
-      <p class="quota"><span class="m-span">限额：</span>{{ item.quota }}</p>
-      <p class="price"><span class="m-span">单价：</span>{{ item.price }} CNY</p>
-      <div class="control">
-        <button class="button" @click="gotoDetail(item.id)">{{buttonLabel}}</button>
-      </div>
+    <div class="trade-item" v-for="(item, index) in tablebody" :key="index" @click="tradeItemClick(item.id)">
+      <p class="label-name">{{ item.label }}</p>
+      <p class="nowmoney">
+        <span class="m-span">最新价：</span>{{ item.nowmoney }}
+      </p>
+      <p class="increase" :class="item.Increase[0] === '-' ? 'fall' : 'rise'">
+        <span class="m-span">涨幅：</span>{{ item.Increase }}
+      </p>
+      <p class="heightprice">
+        <span class="m-span">最高价：</span>{{ item.heightprice }}
+      </p>
+      <p class="lowestprice">
+        <span class="m-span">最低价：</span>{{ item.lowestprice }}
+      </p>
+      <p class="amount">
+        <span class="m-span">24H量：</span>{{ item.amount }}万
+      </p>
+      <p class="turnover">
+        <span class="m-span">24H成交额：</span>￥{{ item.Turnover }}亿
+      </p>
     </div>
   </div>
 </template>
@@ -40,55 +52,20 @@ export default {
         return [];
       },
     },
-    buttonLabel:{
-      type:String,
-      default:'',
-      required: true
-    }
+    buttonLabel: {
+      type: String,
+      default: "",
+      required: true,
+    },
   },
   data() {
-    return {
-      tableData: [
-        {
-          label: "王者爱仕达",
-          num: 39967.965828,
-          quota: "100,000.00-258,193.00",
-          price: 6.46,
-          isBuy: false,
-        },
-        {
-          label: "王者爱仕达",
-          num: 39967.965828,
-          quota: "100,000.00-258,193.00",
-          price: 6.46,
-          isBuy: true,
-        },
-      ],
-      tableHead: [
-        {
-          label: "广告方",
-        },
-        {
-          label: "数量",
-        },
-        {
-          label: "限额",
-        },
-        {
-          label: "单价",
-        },
-        {
-          label: "交易",
-        },
-      ],
-    };
+    return {};
   },
-  methods:{
-    gotoDetail(id){
-      console.log(id)
-      this.$router.push({path:'details',query:{id}})
-    }
-  }
+  methods: {
+    tradeItemClick(id) {
+      this.$router.push({ path: "details", query: { id } });
+    },
+  },
 };
 </script>
 
@@ -98,68 +75,65 @@ export default {
   background-color: #fff;
   .trade-header {
     display: none;
+    font-size: 12px;
+    padding: 0 10px;
   }
   .trade-item {
+    color: #1c242c;
     margin: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #e6ecf2;
     font-size: 14px;
-    .m-span{
-      margin-right: 16px;
+    .m-span {
+      display: inline-block;
+      width: 30%;
       color: #9aa5b5;
     }
-    .num,.quota{
-      color: #1c242c;
-    }
-    .price{
-      color: #0da88b;
-    }
-    .label {
+    .rise {
       color: green;
-      margin-bottom: 0;
-      font-size: 14px;
     }
-    .label-buy {
+    .fall {
       color: red;
     }
-    .button {
-      background-color: #357ce1;
-      color: #fff;
-    }
   }
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: 1000px) {
     .trade-header {
       display: flex;
-      margin-top:20px;
+      margin-top: 20px;
+      color: #9aa5b5;
       .trade-header-item {
         flex: 1;
         text-align: center;
-        border-bottom: 1px solid #e6ecf2;
       }
     }
-
+    .trade-item:hover{
+      box-shadow:0px 1px 2px #e6ece6;
+      cursor: pointer;
+    }
     .trade-item {
       display: flex;
       border-bottom: 1px solid #e6ecf2;
-      .m-span {
-        display: none;
+      .label-name,
+      .nowmoney,
+      .increase,
+      .heightprice,
+      .amount,
+      .turnover,
+      .lowestprice {
+        text-align: center;
+        flex: 1;
+        width: 0;
+        word-wrap: break-word;
+        .m-span {
+          display: none;
+        }
       }
-      .button {
-        background-color: #357ce1;
-        color: #fff;
+      .rise {
+        color: green;
       }
-    }
-    .label,
-    .label-buy,
-    .num,
-    .quota,
-    .price,
-    .control {
-      text-align: center;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      .fall {
+        color: red;
+      }
     }
   }
 }
