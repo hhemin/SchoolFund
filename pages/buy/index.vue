@@ -13,24 +13,7 @@ import Page from '@/components/common/pagination'
     data() {
       return {
         JTable,
-        tableData: [
-        {
-          id:1,
-          label: "王者爱仕达",
-          num: 39967.965828,
-          quota: "100,000.00-258,193.00",
-          price: 6.46,
-          isBuy: true,
-        },
-        {
-          id:2,
-          label: "王者爱仕达",
-          num: 39967.965828,
-          quota: "100,000.00-258,193.00",
-          price: 6.46,
-          isBuy: true,
-        },
-      ],
+        tableData: [],
       }
     },
     components: {
