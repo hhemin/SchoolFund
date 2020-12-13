@@ -38,7 +38,7 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">              
+          <div class="buttons" v-if="!user">              
             <!-- <a class="button is-primary">
               <strong>注册</strong>
             </a> -->
@@ -49,6 +49,11 @@
               <strong>登录</strong>
             </nuxt-link>
           </div>
+          <div class="user-info" v-else>
+            <img class="is-rounded" src="https://bulma.zcopy.site/images/placeholders/32x32.png">
+            <span>{{user}}</span>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -73,7 +78,20 @@ export default {
           router: "/me",
         },
       ],
+      user:true
     };
+  },
+  created(){
+    
+  },
+  mounted(){
+    let user = window.localStorage.getItem('user')
+    console.log(user)
+    if(user){
+      this.user = user
+    }else {
+       this.user = false
+    }
   },
   methods: {
     openmune() {
@@ -117,6 +135,12 @@ a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-i
     opacity: 1;
     transform: translateY(0);
   }
-  
+}
+.user-info{
+  display:flex;
+  .is-rounded{
+    border-radius: 50%;
+    margin-right: 10px;
+  }
 }
 </style>
