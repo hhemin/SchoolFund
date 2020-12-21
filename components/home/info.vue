@@ -55,11 +55,12 @@ export default {
           state: 0,
         },
       ],
+      timer:null
     };
   },
   mounted() {
     this.mainScoll();
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.mainScoll();
     }, 1000);
   },
@@ -79,6 +80,10 @@ export default {
       this.$refs.main.scrollTo(0, this.$refs.main.scrollHeight);
     },
   },
+  beforeDestroy() {
+    clearInterval(this.timer);        
+    this.timer = null;
+  }
 };
 </script>
 

@@ -62,6 +62,8 @@ export default {
             type: 'success'
          });
          storageUtil.put('token',v.data)
+         storageUtil.put('user',datavalue.account)
+         this.$router.push({path:'/'})
        }
       } catch (error) {
         console.log(error)

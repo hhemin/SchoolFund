@@ -1,33 +1,32 @@
 <template>
   <div class="warp">
-   <ve-line :data="chartData" :theme="theme"></ve-line>
+    <ve-line :data="chartData" :theme="theme"></ve-line>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        theme: {
-      line: {
-        smooth: false
-      }
-    },
-        chartData: {
-          columns: ['时间', '访问用户'],
-          rows: [
-            { '时间': '1/1', '访问用户': 1393 },
-            { '时间': '1/2', '访问用户': 3530 },
-            { '时间': '1/3', '访问用户': 2923 },
-            { '时间': '1/4', '访问用户': 1723 },
-            { '时间': '1/5', '访问用户': 3792 },
-            { '时间': '1/6', '访问用户': 4593 }
-          ]
-        }
-      }
-    }
-    
-  }
+export default {
+  data() {
+    return {
+      theme: {
+        line: {
+          smooth: false,
+        },
+      },
+      chartData: {
+        columns: ["time", "value"],
+        rows: [
+          { time: "0:00", value: 1393 },
+          { time: "11:30", value: 3530 },
+          { time: "12:30", value: 2923 },
+          { time: "12:30", value: 1723 },
+          { time: "18:00", value: 3792 },
+          { time: "24:00", value: 4593 },
+        ],
+      },
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

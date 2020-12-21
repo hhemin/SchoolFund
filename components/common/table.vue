@@ -10,25 +10,21 @@
       </div>
     </div>
     <div class="trade-item" v-for="(item, index) in tablebody" :key="index" @click="tradeItemClick(item.id)">
-      <p class="label-name">{{ item.label }}</p>
-      <p class="nowmoney">
-        <span class="m-span">最新价：</span>{{ item.nowmoney }}
-      </p>
-      <p class="increase" :class="item.Increase[0] === '-' ? 'fall' : 'rise'">
-        <span class="m-span">涨幅：</span>{{ item.Increase }}
-      </p>
-      <p class="heightprice">
-        <span class="m-span">最高价：</span>{{ item.heightprice }}
-      </p>
-      <p class="lowestprice">
-        <span class="m-span">最低价：</span>{{ item.lowestprice }}
-      </p>
-      <p class="amount">
-        <span class="m-span">24H量：</span>{{ item.amount }}万
-      </p>
-      <p class="turnover">
-        <span class="m-span">24H成交额：</span>￥{{ item.Turnover }}亿
-      </p>
+      <div class="main" v-for="(headitem, index) in tablehead" :key="index">
+        <img :src="item[headitem.param]" alt="币图" v-if="headitem.showimg"/>
+        <p v-if="headitem.param" class="label-name" :class="headitem.param === 'Increase'? item.Increase[0] === '-' ? 'fall' : 'rise':''">
+          <span class="m-span" v-if="headitem.hidelabel?false:true">{{headitem.label}}</span>
+          <span v-if="headitem.hidemoneytip?false:true">$</span> <span v-if="!headitem.showimg">{{ item[headitem.param] }}</span> 
+        </p>
+        <p v-else style="display:flex;">
+          <span v-for="(pvalue,index) in headitem.children" :key="index">
+             <img :src="item[pvalue.param]" alt="币图" v-if="pvalue.showimg"/>
+            <span v-else>
+              {{item[pvalue.param]}}
+            </span>
+          </span>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +80,16 @@ export default {
     padding-bottom: 10px;
     border-bottom: 1px solid #e6ecf2;
     font-size: 14px;
+    .main {
+      // display: flex;
+      width:100%;
+      // align-items: center;
+      // justify-content: center;
+      img {
+        width:25px;
+        height: 25px;
+      }
+    }
     .m-span {
       display: inline-block;
       width: 30%;
@@ -113,17 +119,18 @@ export default {
     .trade-item {
       display: flex;
       border-bottom: 1px solid #e6ecf2;
-      .label-name,
-      .nowmoney,
-      .increase,
-      .heightprice,
-      .amount,
-      .turnover,
-      .lowestprice {
+      .label-name
+      // .nowmoney,
+      // .increase,
+      // .heightprice,
+      // .amount,
+      // .turnover,
+      // .lowestprice 
+      {
         text-align: center;
-        flex: 1;
-        width: 0;
-        word-wrap: break-word;
+        // flex: 1;
+        // width: 0;
+        // word-wrap: break-word;
         .m-span {
           display: none;
         }

@@ -1,30 +1,33 @@
 class Sockt {
    constructor() {
-     this.ws = '12312'
+     this.ws = {}
    }
-
+// 创建
    oncreated({url = ''} = {}) {
+     const That = this
      return function({id =''}={}) {
-      console.log(``)
-       return this.ws = new WebSocket(`${url}/${id}`)
+       console.log(`${url}/${id}`)
+       return That.ws = new WebSocket(`${url}/${id}`)
      }
     
    }
-
+// 打开
    open() {
      this.ws.open = () => {
       console.log("数据发送中...");
      }
    }
-   
+  //  接收信息
    onmessage() {
-      ws.onmessage = (evt) => {
-        console.log(evt);
-      };
+     return this.ws;
+      // this.ws.onmessage = (evt) => {
+      //   console.log(evt);
+      //   return evt
+      // };
    }
-
+// 关闭
    onclose() {
-     ws.close();
+     this.ws.close();
    }
 }
 

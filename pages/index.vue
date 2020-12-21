@@ -21,42 +21,72 @@ import JTable from "@/components/common/table";
 import Page from "@/components/common/pagination";
 import Tab from "@/components/common/tab";
 import { GetMonName } from "@/utils/api";
+import {Sockt} from '@/assets/js/websockt'
+// import Button from '~/components/common/button.vue';
 // @name 股市
+const createSockt = new Sockt();
+
 export default {
   layout: "LMenu",
   data() {
     return {
       JTable,
+      testdata: [
+        {
+          value:12,
+          name:'BTN'
+        }
+      ],
       tablehead: [
+        // {
+        //   label: "",
+        //   param: "currencyImgIcon",
+        //   hidemoneytip:true,// 显示图片
+        //   showimg:true,
+        // },
         {
           label: "交易对",
-          param: "businessName",
+          // param: "currencyName",
+          hidelabel:true,
+          hidemoneytip:true,
+          children:[
+            {
+              param: "currencyImgIcon",
+              hidemoneytip:true,// 显示图片
+              showimg:true,
+            },
+            {
+              param: "currencyName",
+              hidelabel:true,
+              hidemoneytip:true,
+            }
+          ]
         },
         {
           label: "最新价",
-          param: "nowmoney",
+          param: "last",
         },
         {
           label: "涨幅",
           param: "Increase",
+          hidemoneytip:true,
         },
         {
-          label: "最高价",
-          param: "heightprice",
+          label: "24H最高价",
+          param: "high_24h",
         },
         {
-          label: "最低价",
-          param: "lowestprice",
-        },
-
-        {
-          label: "24H量",
-          param: "amount",
+          label: "24H最低价",
+          param: "low_24h",
         },
         {
-          label: "24H成交额",
-          param: "Turnover",
+          label: "24H开盘价",
+          param: "open_24h",
         },
+        // {
+        //   label: "24H成交额",
+        //   param: "Turnover",
+        // },
       ],
       tabData: [
         { id: 1, name: "涨幅榜" },
@@ -74,54 +104,15 @@ export default {
       //      amount:"2389012830912"
       //    }
       //  ],
-      tableData: [
-        {
-          id: 1,
-          label: "BTC",
-          nowmoney: 18277.75,
-          Increase: "-2.94%",
-          heightprice: 18941.43,
-          lowestprice: 18152.52,
-          amount: 3.35,
-          Turnover: 40.4,
-        },
-        {
-          id: 1,
-          label: "BTC",
-          nowmoney: 557.75,
-          Increase: "+2.94%",
-          heightprice: 18941.43,
-          lowestprice: 18152.52,
-          amount: 3.35,
-          Turnover: 40.4,
-        },
-        {
-          id: 1,
-          label: "BTC",
-          nowmoney: 557.75,
-          Increase: "+2.94%",
-          heightprice: 18941.43,
-          lowestprice: 18152.52,
-          amount: 3.35,
-          Turnover: 40.4,
-        },
-        {
-          id: 1,
-          label: "BTC",
-          nowmoney: 557.75,
-          Increase: "+2.94%",
-          heightprice: 18941.43,
-          lowestprice: 18152.52,
-          amount: 3.35,
-          Turnover: 40.4,
-        },
-      ],
       tableOption: [
         {
           label: "详情",
           options: [{}],
         },
       ],
+      tableData:[],
+      valueArray:[],
+      websodata:{}
     };
   },
   mounted() {
@@ -130,13 +121,61 @@ export default {
   methods: {
     async getDatalist() {
       try {
-        let b = await GetMonName({
-          limit: 10,
+        let {data:{list}} = await GetMonName({
+          limit: 1000,
           page: 1,
         });
+        let _v = [];
+        let tableArray = []
+        // console.log(list)
+        list.forEach(item => {
+          let tableitem = {
+            currencyImgIcon: 'http://192.168.43.253:8080'+item.currencyImgIcon,
+            currencyName:item.currencyName,
+            last:item.last || '',
+            Increase:0,
+            high_24h:item.high_24h|| '',
+            low_24h:item.low_24h|| '',
+            open_24h:item.open_24h|| '',
+          }
+          _v.push(item.currencyName)
+          tableArray.push(tableitem)
+        });
+        this.tableData = tableArray;
+        // console.log(tableArray)
+        this.createSockfn(_v)
       } catch (err) {
         console.log(err);
       }
+    },
+    changevalue(data,value) {
+            
+
+    },
+    createSockfn(value) {
+      createSockt.oncreated({url:`ws://192.168.43.253:8080/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
+      // createSockt.oncreated({url:'ws://192.168.43.253:8080/webSocket/cuybuyBTCadmin'})() //买入出买入
+      createSockt.open();
+      let fn = createSockt.onmessage();
+      fn.onmessage = (evt) => {
+        let {data:value} = evt
+        this.websodata = JSON.parse(value)
+        if(this.websodata.instrument_id) {
+         let name = this.websodata.instrument_id.split('-')[0]
+           for(let i = 0;i<this.tableData.length;i++) {
+            if(name == this.tableData[i].currencyName) {
+              this.$set(this.tableData[i],'last',this.websodata.last)
+              this.$set(this.tableData[i],'high_24h',this.websodata.high_24h)
+              this.$set(this.tableData[i],'low_24h',this.websodata.low_24h)
+              this.$set(this.tableData[i],'open_24h',this.websodata.open_24h)
+              this.$set(this.tableData[i],'Increase',((1- this.websodata.last/this.websodata.open_24h)*100).toFixed(2))
+              break;
+            }
+          }
+        }
+        console.log(this.tableData)
+      }
+      // this.websodata = createSockt.onmessage()
     },
     tabClick(id) {
       console.log(id);
@@ -145,6 +184,7 @@ export default {
   components: {
     Page,
     Tab,
+    // Button
   },
 };
 </script>

@@ -24,8 +24,15 @@ const GetMonName = async (data) => {
   })
 }
 
+const TS = async ({id = ''} ={}) => {
+  return await request.getFn({
+    url:'/api/admin/holdCurrency/query/'+id
+  })
+}
+
 export {
   Login,
   Register,
   GetMonName,
+  TS
 }
