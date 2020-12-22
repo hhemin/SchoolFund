@@ -11,7 +11,8 @@ export default {
   data() {
     this.chartSettings = {
       showMA: true,
-      showVol: true
+      showVol: true,
+      showDataZoom: true
     }
     return {
       barExtend: {

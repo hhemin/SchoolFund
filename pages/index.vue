@@ -154,7 +154,6 @@ export default {
     },
     createSockfn(value) {
       createSockt.oncreated({url:`ws://192.168.43.253:8080/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
-      // createSockt.oncreated({url:'ws://192.168.43.253:8080/webSocket/cuybuyBTCadmin'})() //买入出买入
       createSockt.open();
       let fn = createSockt.onmessage();
       fn.onmessage = (evt) => {
@@ -175,6 +174,9 @@ export default {
         }
         console.log(this.tableData)
       }
+      this.$router.afterEach(function () {
+        createSockt.onclose();
+      });
       // this.websodata = createSockt.onmessage()
     },
     tabClick(id) {

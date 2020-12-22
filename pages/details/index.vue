@@ -26,8 +26,9 @@
       </div>
     </div>
     <div class="column rightbox headtop main bgColor">
-      <component class="earn" :is="Info"></component>
-      <component class="deficit" :is="Info"></component>
+      <component :is="Buysell" class="buysell"></component>
+      <!-- <component class="earn" :is="Info"></component>
+      <component class="deficit" :is="Info"></component> -->
     </div>
   </div>
 </template>
@@ -35,13 +36,12 @@
 <script>
 import K from "@/components/map/k";
 import TimeK from "@/components/map/time";
-import Info from "@/components/home/info";
-import Buy from "@/components/home/buy";
-import Sell from "@/components/home/sell";
-import {Sockt} from '@/assets/js/websockt'
-
-
-// import Button from '~/components/common/button.vue';
+// import Info from "@/components/details/info";
+import Buy from "@/components/details/buy";
+import Sell from "@/components/details/sell";
+import Buysell from "@/components/details/buysell";
+// import {Sockt} from '@/assets/js/websockt'
+// const createSockt = new Sockt();
 // @name 股市
 export default {
   layout: "LMenu",
@@ -52,7 +52,8 @@ export default {
       mapchart: TimeK,
       Buy,
       Sell,
-      Info,
+      Buysell,
+      // Info,
       changename: "k",
     };
   },
@@ -61,27 +62,18 @@ export default {
   },
   mounted() {
     // this.websocket();
-    this.getSockFn()
+    // this.getSockFn()
   },
   methods: {
-    websocket() {
-      let ws = new WebSocket("ws://192.168.43.253:8080/webSocket/10");
-      ws.onopen = () => {
-        // Web Socket 已连接上，使用 send() 方法发送数据
-        ws.send("Holle");
-        console.log("数据发送中...");
-      };
-      ws.onmessage = (evt) => {
-        console.log(evt);
-        // console.log('数据已接收...')
-      };
-      // ws.onclose = function () {
-      //   // 关闭 websocket
-      //   console.log("连接已关闭...");
-      // };
-      // 路由跳转时结束websocket链接
+    getBuySell() {
+      createSockt.oncreated({url:`ws://192.168.43.253:8080/webSocket/buy-BTC-${localStorage.getItem('user')}`})() //买入出买入
+      createSockt.open();
+      let fn = createSockt.onmessage();
+      fn.onmessage = (evt) => {
+        console.log(evt)
+      }
       this.$router.afterEach(function () {
-        ws.close();
+        createSockt.onclose();
       });
     },
     getSockFn() {
@@ -94,7 +86,7 @@ export default {
     },
   },
   components: {
-    Info,
+    // Info,
     // Button,
   },
 };
@@ -121,6 +113,11 @@ export default {
   }
   .rightbox {
     // height: calc(100%-20px);
+    .buysell {
+       width: 100%;
+      height: 100%; 
+      overflow: auto;
+    }
     .earn {
       width: 100%;
       height: 50%;
