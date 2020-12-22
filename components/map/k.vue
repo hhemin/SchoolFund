@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import {Kdata} from '@/utils/api'
 export default {
   name: "k",
   data() {
@@ -345,6 +346,23 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getKdata()
+  },
+  methods: {
+    async getKdata() {
+      console.log(1232131313)
+      let v = await Kdata()
+      console.log(v)
+      // try {
+      //   let data = await Kdata()
+      //   console.log('///////////////')
+      //   console.log(data)
+      // }catch {
+
+      // }
+    }
+   }
 };
 </script>
 

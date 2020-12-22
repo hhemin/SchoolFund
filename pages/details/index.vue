@@ -3,7 +3,7 @@
     <div class="column is-9 headtop left">
       <div class="kmap card bgColor">
         <no-ssr placeholder="Loading...">
-          <component :is="mapchart"></component>
+          <component :is="mapchart" ref="chart"></component>
           <div class="change">
             <div class="change-tiem" @click="changefn">
               切换 {{ changename }} 图
@@ -75,10 +75,6 @@ export default {
       this.$router.afterEach(function () {
         createSockt.onclose();
       });
-    },
-    getSockFn() {
-      let s = new Sockt();
-      s.oncreated({url:'www.baidu.com',id:'12312'})
     },
     changefn() {
       this.changename = this.changename === "k" ? "time" : "k";

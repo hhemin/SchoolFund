@@ -29,10 +29,24 @@ const TS = async ({id = ''} ={}) => {
     url:'/api/admin/holdCurrency/query/'+id
   })
 }
+// K线图api
+const Kdata = async ({
+  granularity = 30,// 3600 604800
+  currencyName = 'BTC'
+}={}) => {
+  return await request.postFn({
+    url:'/api/web/KCurrency',
+    data: {
+      currencyName,
+      granularity
+    }
+  })
+}
 
 export {
   Login,
   Register,
   GetMonName,
-  TS
+  TS,
+  Kdata
 }

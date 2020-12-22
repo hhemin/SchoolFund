@@ -25,14 +25,14 @@ export default {
     };
   },
   mounted() {
-    this.getBuySell();
+    // this.getBuySell();
   },
   methods: {
     getBuySell() {
       createSockt.oncreated({
         url: `ws://192.168.43.253:8080/webSocket/buy-BTC-${localStorage.getItem(
           "user"
-        )}`,
+        )+2}`,
       })(); //买入出买入
       createSockt.open();
       let fn = createSockt.onmessage();
