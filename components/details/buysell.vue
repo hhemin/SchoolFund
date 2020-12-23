@@ -15,6 +15,7 @@
  * */
 import Info from "@/components/details/info";
 import {Sockt} from '@/assets/js/websockt'
+import {ip} from "@/utils/config"
 const createSockt = new Sockt();
 export default {
   data() {
@@ -30,7 +31,7 @@ export default {
   methods: {
     getBuySell() {
       createSockt.oncreated({
-        url: `ws://192.168.43.253:8080/webSocket/buy-BTC-${localStorage.getItem(
+        url: `ws://${ip}/webSocket/buy-BTC-${localStorage.getItem(
           "user"
         )+2}`,
       })(); //买入出买入
@@ -39,16 +40,13 @@ export default {
       const That = this;
       fn.onmessage = (evt) => {
         let {data} = evt;
-        console.log(data);
-        let dataa = {"side":"buy","trade_id":"70353496","size":"1","price":"21905","instrument_id":"BTC-USD-SWAP","timestamp":"2020-12-21T12:12:23.991Z"}
+        // console.log(data);
         That.formatData(JSON.parse(data))
       };
       this.$router.afterEach(function () {
         createSockt.onclose();
       });
     },
-    // {"side":"buy","trade_id":"70353496","size":"1","price":"21905","instrument_id":"BTC-USD-SWAP","timestamp":"2020-12-21T12:12:23.991Z"}
-    // {"side":"sell","trade_id":"70353497","size":"10","price":"21904.7","instrument_id":"BTC-USD-SWAP","timestamp":"2020-12-21T12:12:24.016Z"}
     formatData(value) {
       const actions = {
         'buy':()=> {

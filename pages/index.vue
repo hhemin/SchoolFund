@@ -22,6 +22,7 @@ import Page from "@/components/common/pagination";
 import Tab from "@/components/common/tab";
 import { GetMonName } from "@/utils/api";
 import {Sockt} from '@/assets/js/websockt'
+import {ip} from '@/utils/config'
 // import Button from '~/components/common/button.vue';
 // @name 股市
 const createSockt = new Sockt();
@@ -130,7 +131,7 @@ export default {
         // console.log(list)
         list.forEach(item => {
           let tableitem = {
-            currencyImgIcon: 'http://192.168.43.253:8080'+item.currencyImgIcon,
+            currencyImgIcon: `http://${ip}`+item.currencyImgIcon,
             currencyName:item.currencyName,
             last:item.last || '',
             Increase:0,

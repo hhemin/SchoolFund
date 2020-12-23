@@ -40,6 +40,7 @@ import TimeK from "@/components/map/time";
 import Buy from "@/components/details/buy";
 import Sell from "@/components/details/sell";
 import Buysell from "@/components/details/buysell";
+import {ip} from "@/utils/config"
 // import {Sockt} from '@/assets/js/websockt'
 // const createSockt = new Sockt();
 // @name 股市
@@ -60,31 +61,16 @@ export default {
   created() {
     console.log(this.$router.params);
   },
-  mounted() {
-    // this.websocket();
-    // this.getSockFn()
-  },
   methods: {
-    getBuySell() {
-      createSockt.oncreated({url:`ws://192.168.43.253:8080/webSocket/buy-BTC-${localStorage.getItem('user')}`})() //买入出买入
-      createSockt.open();
-      let fn = createSockt.onmessage();
-      fn.onmessage = (evt) => {
-        console.log(evt)
-      }
-      this.$router.afterEach(function () {
-        createSockt.onclose();
-      });
-    },
     changefn() {
       this.changename = this.changename === "k" ? "time" : "k";
       this.mapchart = this.mapchart === TimeK ? K : TimeK;
     },
   },
-  components: {
+  // components: {
     // Info,
     // Button,
-  },
+  // },
 };
 </script>
 
@@ -100,7 +86,7 @@ export default {
     min-height: 100vh;
     // background-color: blue;
     .kmap {
-      height: calc(100vh - 320px);
+      height: calc(100vh - 340px);
       // background-color: blue;
     }
     .moneyinfo {

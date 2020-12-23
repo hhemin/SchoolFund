@@ -4,6 +4,7 @@
       <p class="card-header-title fc" style="font-size: 30px">买入</p>
     </div>
     <div class="field card-content is-centered">
+      币数：123
       <p class="control">
         <input class="input bgColor" type="number" placeholder="输入金额" />
       </p>
@@ -18,7 +19,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  }
+};
 </script>
 
 <style lang="scss" scoped>

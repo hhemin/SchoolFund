@@ -4,6 +4,7 @@
       <p class="card-header-title fc" style="font-size: 30px">卖出</p>
     </div>
     <div class="field card-content">
+      币数：123123
       <p class="control">
         <input class="input bgColor" type="number" placeholder="请输入金额" />
       </p>

@@ -3,6 +3,7 @@ import axios from 'axios';
 // import { baseUrl } from './env'; // 导入环境
 import storageUtil from '../assets/js/storage'; // 缓存
 import { Message,Loading } from 'element-ui';
+import {baseURL} from './config'
 // import router from '../router/index'
 
 /**
@@ -36,7 +37,7 @@ const errorHandle = (status, other) => {
 // instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://192.168.43.253:8080', // api的base_url
+  baseURL, // api的base_url  http://192.168.43.253:8080
   // timeout: 15000, // 请求超时时间2s
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
