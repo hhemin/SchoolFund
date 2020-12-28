@@ -9,6 +9,7 @@
 import {Kdata} from '@/utils/api'
 import {Sockt} from '@/assets/js/websockt'
 import {ip} from '@/utils/config'
+import {TimeISO} from '@/assets/js/time'
 const createSockt = new Sockt();
 export default {
   name: "k",
@@ -26,6 +27,7 @@ export default {
          axisLine: { lineStyle: { color: '#8392A5' } }
         }
       },
+      Obj:{},
       chartData: {
         textStyle: {
           color: "#fff"
@@ -36,15 +38,53 @@ export default {
     };
   },
   mounted() {
-    this.getKdata()
+    // this.getKdata()
+    let datav = `{"candle":"2020-12-22T08:00:00.000Z","22666","22756.1","22528.7","22528.7","167150","738.8137","instrument_id":"BTC-USD-SWAP"}`
+    let dataArray = datav.split(',')
+    for(let i = 0;i<dataArray.length;i++) {
+      if(i === 0) this.formatdata({status:i,
+          value:dataArray[i],
+          index:i}) 
+      if(i>0 &&i < dataArray.length-1 ) {
+        console.log(typeof dataArray[i])
+        this.formatdata({
+          status:'ok',
+          value:dataArray[i],
+          index:i
+        })
+      }
+      else this.formatdata({value:dataArray[i]})
+      console.log(this.Obj)
+    }
+
   },
   methods: {
     async getKdata() {
       let {data} = await Kdata()
       this.chartData.rows = data.reverse()
       if(data) {
-        this.getFluter()
+        // this.getFluter()
+        // let datav = `{"candle":"2020-12-22T08:00:00.000Z","22666","22756.1","22528.7","22528.7","167150","738.8137","instrument_id":"BTC-USD-SWAP"}`
+        // let dataArray = datav.split(',')
+        // console.log(dataArray)
       }
+    },
+    formatdata({status='default',index='',value = ''} ={}) {
+      const actions = {
+        0:(value)=> {
+          let time = TimeISO(JSON.parse(value+'}').candle)
+          this.Obj[this.chartData.columns[index]] = time
+        },
+        'ok':(value,index)=> {
+          value= Number(value.replace("\'",""))
+          this.Obj[this.chartData.columns[index]] = value
+        },
+        'default':()=> {
+          return false
+        }
+      }
+      let actionsFn = actions[index](value) || actions['default']
+      return actionsFn.call(this)
     },
     getFluter() {
       createSockt.oncreated({
@@ -56,9 +96,16 @@ export default {
       let fn = createSockt.onmessage();
       const That = this;
       fn.onmessage = (evt) => {
-        let {data} = evt;
-        let mm = data.splice(',')
-        console.log(mm);
+        // let {data} = evt;
+        
+        // console.log(dataArray)
+
+        // for(let i = 0;i<dataArray.length;i++) {
+        //   if(i == 0) {
+        //    let time = dataArray[i]
+        //    console.log(time)
+        //   }
+        // }
         // data.
         // let dataa = // {"candle":"2020-12-22T08:00:00.000Z","22666","22756.1","22528.7","22528.7","167150","738.8137","instrument_id":"BTC-USD-SWAP"}
         // That.formatData(JSON.parse(data))
