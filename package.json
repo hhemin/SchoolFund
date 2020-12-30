@@ -18,7 +18,8 @@
     "echarts": "^4.9.0",
     "element-ui": "^2.14.1",
     "nuxt": "^2.14.5",
-    "v-charts": "^1.19.0"
+    "v-charts": "^1.19.0",
+    "vue-kinesis": "^1.2.1"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.5",

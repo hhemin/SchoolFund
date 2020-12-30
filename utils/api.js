@@ -31,7 +31,7 @@ const TS = async ({id = ''} ={}) => {
 }
 // K线图api
 const Kdata = async ({
-  granularity = 604800,// 3600 604800
+  granularity = 86400,// 1:小时3600 一天：86400 
   currencyName = 'BTC'
 }={}) => {
   return await request.postFn({

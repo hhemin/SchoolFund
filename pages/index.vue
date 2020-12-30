@@ -154,7 +154,7 @@ export default {
 
     },
     createSockfn(value) {
-      createSockt.oncreated({url:`ws://192.168.43.253:8080/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
+      createSockt.oncreated({url:`ws://${ip}/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
       createSockt.open();
       let fn = createSockt.onmessage();
       fn.onmessage = (evt) => {

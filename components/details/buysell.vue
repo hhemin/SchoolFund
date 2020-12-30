@@ -26,7 +26,7 @@ export default {
     };
   },
   mounted() {
-    // this.getBuySell();
+    this.getBuySell();
   },
   methods: {
     getBuySell() {

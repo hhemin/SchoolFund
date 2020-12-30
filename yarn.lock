@@ -10706,6 +10706,11 @@ vue-jest@^3.0.4:
     tsconfig "^7.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-kinesis@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/vue-kinesis/download/vue-kinesis-1.2.1.tgz#398078bbe24449c5668fd08ee7006203b39bd851"
+  integrity sha1-OYB4u+JEScVmj9CO5wBiA7Ob2FE=
+
 vue-loader@^15.9.3:
   version "15.9.3"
   resolved "https://registry.npm.taobao.org/vue-loader/download/vue-loader-15.9.3.tgz?cache=0&sync_timestamp=1599639283575&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-loader%2Fdownload%2Fvue-loader-15.9.3.tgz#0de35d9e555d3ed53969516cac5ce25531299dda"
