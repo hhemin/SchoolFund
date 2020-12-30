@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     name: 'Home',
     redirect: '/back',
-    component: () => import('../components/Home.vue'),
+    component: () => import('../views/Home.vue'),
     children: [
       {
         path: '/back',
@@ -24,39 +24,36 @@ const routes = [
           backmain: () => import('../components/ditu/DiTu.vue')
         }
       },
+      // 订单管理
       {
-        path: '/new',
-        name: 'New',
+        path: '/orderController',
+        name: 'OrderController',
         components: {
-          backmain: () => import('../components/New/New.vue')
+          backmain: () => import('../components/OrderController/orderController.vue')
         }
       },
+      // 货币管理
       {
-        path: '/news',
-        name: 'News',
+        path: '/currencyController',
+        name: 'CurrencyController',
         components: {
-          backmain: () => import('../components/News/News.vue')
+          backmain: () => import('../components/CurrencyController/currencyController.vue')
         }
       },
+      // 用户管理
+      // {
+      //   path: '/user',
+      //   name: 'User',
+      //   components: {
+      //     backmain: () => import('../components/User/userController.vue')
+      //   }
+      // },
+      // 持有货币
       {
-        path: '/new2',
-        name: 'New2',
+        path: '/userHold',
+        name: 'UserHold',
         components: {
-          backmain: () => import('../components/New/New2.vue')
-        }
-      },
-      {
-        path: '/news2',
-        name: 'News2',
-        components: {
-          backmain: () => import('../components/News/News2.vue')
-        }
-      },
-      {
-        path: '/inquire3',
-        name: 'Inquire3',
-        components: {
-          backmain: () => import('../components/Inquire/Inquire3.vue')
+          backmain: () => import('../components/userHold/userHoldController.vue')
         }
       }
     ]
