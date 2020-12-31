@@ -43,10 +43,52 @@ const Kdata = async ({
   })
 }
 
+const Buy = async (data) => {
+  return await request.postFn({
+    url:'/api/web/transaction/buy',
+    data,
+    tokenbool:true
+  })
+}
+
+const Sell = async (data) => {
+  return await request.postFn({
+    url:'/api/web/transaction/sell',
+    data,
+    tokenbool:true
+  })
+}
+
+const NewMoney = async (data) => {
+  return await request.postFn({
+    url:'/api/web/newMoney',
+    data,
+    tokenbool:true
+  })
+}
+
+const HoldCurrency = async (data) => {
+  return await request.getFn({
+    url:'/api/web/holdCurrency/query',
+    tokenbool:true
+  })
+}
+const PersonInfo = async () =>　{
+  return await request.postFn({
+    url:'/api/web/person',
+    tokenbool:true
+  })
+}
+
 export {
   Login,
   Register,
   GetMonName,
   TS,
-  Kdata
+  Kdata,
+  Buy,
+  Sell,
+  NewMoney,
+  HoldCurrency,
+  PersonInfo
 }

@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-content">
       <h1 class="title">{{ card.title }}</h1>
-      <p class="amount">{{ card.amount }}</p>
+      <p :class="['amount',card.amount > 0 ? '':'loss']">{{card.param === "profit" ? `${card.amount}%`:card.amount}}</p>
     </div>
   </div>
 </template>
@@ -34,6 +34,9 @@ export default {
     .amount {
       text-align: center;
       font-size: 1.5rem;
+    }
+    .loss{
+      color:green;
     }
   }
 }

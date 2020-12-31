@@ -1,4 +1,4 @@
-const ip = '172.20.10.9:8080';
+const ip = '192.168.215.253:8080';
 const baseURL = `http://${ip}`;
 export {
   baseURL,
