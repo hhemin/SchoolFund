@@ -15,6 +15,7 @@
 import JTable from "@/components/common/table";
 import Page from "@/components/common/pagination";
 import {HoldCurrency} from '@/utils/api'
+import { Message } from 'element-ui';
 export default {
   layout: "LMenu",
   data() {
@@ -33,7 +34,7 @@ export default {
           hidemoneytip:true
         },
         {
-          label: "持有货币金额",
+          label: "当前价格",
           param: "holdCurrencyMoney",
           hidemoneytip:true
         },
@@ -48,24 +49,38 @@ export default {
         // },
       ],
       tableData:[],
+      setTime:null
     };
   },
   components: {
     Page,
+    Message
   },
   mounted(){
     this._holdCurrency()
+    this.getHold()
   },
   methods:{
     async _holdCurrency(){
-      try {
+     this.setTime = setInterval(async () => {
+       this.getHold()
+     },5000)
+    },
+    async getHold() {
+       try {
         const res = await HoldCurrency()
-        console.log(res)
+        if(!res.data){
+          Message('没有持仓')
+          return false
+        }
         this.tableData = res.data
       } catch (e) {
         console.log(e)
       }
     }
+  },
+  destroyed(){
+    clearInterval(this.setTime)
   }
 };
 </script>

@@ -49,7 +49,7 @@ export default {
       }
       try {
         const res = await Buy({
-          currencyName: "BTC",
+          currencyName: "ETH",
           money:money,
         });
         Message.success(res.message)

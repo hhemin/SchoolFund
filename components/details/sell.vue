@@ -38,7 +38,7 @@ export default {
       }
       try {
         const res = await Sell({
-          currencyName: "BTC",
+          currencyName: "ETH",
           currencyNum:this.currencyNum,
         });
         //Message.success(res.message)
