@@ -14,9 +14,9 @@
  * @name 卖出买入 逻辑组件
  * */
 import Info from "@/components/details/info";
-import {Sockt} from '@/assets/js/websockt'
+import {createSocket,oncloseFN} from '@/assets/js/websockt'
 import {ip} from "@/utils/config"
-const createSockt = new Sockt();
+// const createSockt = new Sockt();
 export default {
   data() {
     return {
@@ -27,25 +27,33 @@ export default {
   },
   mounted() {
     this.getBuySell();
+     // 注册监听事件
+    window.addEventListener('onmessageWS', this.getsocketData)
   },
   methods: {
+    getsocketData(e) {
+      const data = e && e.detail.data
+      if(!data.hasOwnProperty('side')) return false
+      this.formatData(JSON.parse(data))
+    },
     getBuySell() {
-      createSockt.oncreated({
-        url: `ws://${ip}/webSocket/buy-BTC-${localStorage.getItem(
-          "user"
-        )+2}`,
-      })(); //买入出买入
-      createSockt.open();
-      let fn = createSockt.onmessage();
-      const That = this;
-      fn.onmessage = (evt) => {
-        let {data} = evt;
-        // console.log(data);
-        That.formatData(JSON.parse(data))
-      };
-      this.$router.afterEach(function () {
-        createSockt.onclose();
-      });
+      createSocket(`ws://${ip}/webSocket/buy-BTC-${localStorage.getItem("user")+2}`)
+      // createSockt.oncreated({
+      //   url: `ws://${ip}/webSocket/buy-BTC-${localStorage.getItem(
+      //     "user"
+      //   )+2}`,
+      // })(); //买入出买入
+      // createSockt.open();
+      // let fn = createSockt.onmessage();
+      // const That = this;
+      // createSocket.onmessage = (evt) => {
+      //   let {data} = evt;
+      //   // console.log(data);
+      //   That.formatData(JSON.parse(data))
+      // };
+      // this.$router.afterEach(function () {
+      //   createSockt.onclose();
+      // });
     },
     formatData(value) {
       const actions = {
@@ -62,6 +70,10 @@ export default {
       let actionFn = actions[value.side]||actions['default'];
       return actionFn.call(this);
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('onmessageWS', this.getsocketData)
+    oncloseFN()
   },
 };
 </script>

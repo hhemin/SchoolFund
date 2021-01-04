@@ -3,7 +3,7 @@
     <div class="header bgColor">
       <ul class="flex">
         <!-- <li>时间</li> -->
-        <li>价格</li>
+        <li>{{classcolor === 'sell'?'卖出':'买入'}}价格</li>
         <li>成交量</li>
       </ul>
     </div>

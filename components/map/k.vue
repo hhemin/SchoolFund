@@ -6,16 +6,21 @@
       :extend="barExtend"
       :settings="chartSettings"
       height="100%"
+      :legend-visible="false"
+      :not-set-unchange="['dataZoom']"
     />
   </no-ssr>
 </template>
 
 <script>
+/**
+ * @name K线图
+ * */ 
 import { Kdata } from "@/utils/api";
-import { Sockt } from "@/assets/js/websockt";
+import { createSocket,oncloseFN } from "@/assets/js/websockt";
 import { ip } from "@/utils/config";
 import { TimeISO } from "@/assets/js/time";
-const createSockt = new Sockt();
+// const createSockt = new Sockt();
 export default {
   name: "k",
   data() {
@@ -50,60 +55,74 @@ export default {
   },
   mounted() {
     this.getKdata();
-    // let datav = `{"candle":"2020-12-22T08:00:00.000Z","22666","22756.1","22528.7","22528.7","167150","738.8137","instrument_id":"BTC-USD-SWAP"}`;
-    // let dataArray = datav.split(",");
-    // console.log(dataArray);
-    // for (let i = 0; i < dataArray.length; i++) {
-    //   if (i === 0)
-    //     this.formatdata({ status: i, value: dataArray[i], index: i });
-    //   if (i > 0 && i < dataArray.length - 1) {
-    //     this.formatdata({
-    //       status: "ok",
-    //       value: Number(dataArray[i].split('"')[1]),
-    //       index: i,
-    //     });
-    //   } else this.formatdata({ value: dataArray[i], status: "default" });
-    //   console.log(this.Obj);
-    // }
+     // 注册监听事件
+    window.addEventListener('onmessageWS', this.getsocketData)
   },
   methods: {
+    async getsocketData(e) {
+      const data = e && e.detail.data
+      if(!data.hasOwnProperty('side')) return false
+      let _v = await this.getKObjFn(data);// 处理K data 中间处理
+      this.Obj.time  = this.Obj.time.split(' ')[0]
+      _v.time = _v.time.split(' ')[0]
+      let timekey = this.chartData.rows[this.chartData.rows.length -1].time
+      if(timekey === _v.time) {
+        this.chartData.rows[this.chartData.rows.lenght -1] = this.Obj
+      }else {
+        this.chartData.rows.push(_v)
+      }
+    },
     async getKdata() {
-      let { data } = await Kdata();
+      let { data } = await Kdata({
+        granularity:86400,// 1:小时3600 一天：86400 
+        currencyName:'BTC'
+      });
       this.chartData.rows = data.reverse();
+      // const That = this;
       if (data) {
+        this.getFluter();
         // 获取webSockt数据
-        this.getFluter()
-      //  await this.getFluter().then((res) => {
-        //  console.log(this.chartData.rows.lenght)
-          // res.time  = res.time.split(' ')[0]
-          // // this.Obj.time  = this.Obj.time.split(' ')[0]
-          // let timekey = this.chartData.rows[this.chartData.rows.length -1].time
-          // if(timekey === this.Obj.time) {
-          //   this.chartData.rows[this.chartData.rows.lenght -1] = this.Obj
-          // }else {
-          //   this.chartData.rows.push(this.Obj)
-          // }
-          // console.log(res)
+        // this.getFluter().then((res) => {
+        //   console.log('///////')
+        //   console.log(res)
         // })
-        // let datav = `{"candle":"2020-12-22T08:00:00.000Z","'22666'","'22756.1'","'22528.7'","'22528.7'","'167150'","'738.8137'","instrument_id":"BTC-USD-SWAP"}`
-        // let dataArray = datav.split(',')
-        // console.log(dataArray)
+        // let socketmessage = this.getFluter()
+        // socketmessage.onmessage = async (evt) => {
+        //   let { data } = evt;
+        //   let _v = await That.getKObjFn(data);// 处理K data 中间处理
+        //   That.Obj.time  = That.Obj.time.split(' ')[0]
+        //   _v.time = _v.time.split(' ')[0]
+        //   let timekey = That.chartData.rows[That.chartData.rows.length -1].time
+        //   if(timekey === _v.time) {
+        //     That.chartData.rows[That.chartData.rows.lenght -1] = this.Obj
+        //   }else {
+        //     That.chartData.rows.push(_v)
+        //   }
+        //   console.log(_v)
+        // }
       }
     },
     // 处理K data 中间处理
-   getKObjFn(datav) {
-      let dataArray = datav.split(",");
-      for (let i = 0; i < dataArray.length; i++) {
-        if (i === 0)
-          this.formatdata({ status: i, value: dataArray[i], index: i });
-        if (i > 0 && i < dataArray.length - 1) {
-          this.formatdata({
-            status: "ok",
-            value: Number(dataArray[i].split('"')[1]),
-            index: i,
-          });
-        } else this.formatdata({ value: dataArray[i], status: "default" });
-      }
+    getKObjFn(datav) {
+     let That = this
+      return new Promise((resolve)=>{
+        let _v = ''
+        let dataArray = datav.split(",");
+        for (let i = 0; i < dataArray.length; i++) {
+          if (i === 0)
+            That.formatdata({ status: i, value: dataArray[i], index: i });
+          if (i > 0 && i < dataArray.length - 1) {
+            That.formatdata({
+              status: "ok",
+              value: Number(dataArray[i].split('"')[1]),
+              index: i,
+            });
+          } else {
+            _v = That.formatdata({ value: dataArray[i], status: "default" })
+            resolve(That.Obj)
+          }
+        }
+      })
       // return this.Obj
     },
     // 格式化K data
@@ -115,7 +134,7 @@ export default {
         },
         ok: (value, index) => {
           this.Obj[this.chartData.columns[index]] = value;
-          console.log(this.Obj)
+          // console.log(this.Obj)
         },
         default: () => {
           return false;
@@ -125,25 +144,23 @@ export default {
       actionsFn.call(this);
     },
     getFluter() {
-      let _value = ''
-      createSockt.oncreated({
-        // 3600 
-        url: `ws://${ip}/KWebSocket/BTC-86400-${
-          localStorage.getItem("user") + 3
-        }`,
-      })();
-      createSockt.open();
-      let fn = createSockt.onmessage();
-      const That = this;
-      fn.onmessage = async (evt) => {
-        let { data } = evt;
-        console.log(data)
-        That.getKObjFn(data);// 处理K data 中间处理
-      };
-      this.$router.afterEach(function () {
-        createSockt.onclose();
-      });
+      // const That = this;
+      // let _value = ''
+      createSocket( `ws://${ip}/KWebSocket/BTC-86400-${localStorage.getItem("user") + 3}`)
+      // createSockt.oncreated({
+      //   // 3600 
+      //   url: `ws://${ip}/KWebSocket/BTC-86400-${
+      //     localStorage.getItem("user") + 3
+      //   }`,
+      // })();
+      // createSockt.open();
+      // let fn = createSocket.onmessage;
+      // return fn
     },
+  },
+  beforeDestroy() {
+    window.removeEventListener('onmessageWS', this.getsocketData)
+    oncloseFN()
   },
 };
 </script>

@@ -29,10 +29,10 @@ const TS = async ({id = ''} ={}) => {
     url:'/api/admin/holdCurrency/query/'+id
   })
 }
-// K线图api
+// 线图api 和 当日线图
 const Kdata = async ({
   granularity = 86400,// 1:小时3600 一天：86400 
-  currencyName = 'BTC'
+  currencyName = ''
 }={}) => {
   return await request.postFn({
     url:'/api/web/KCurrency',

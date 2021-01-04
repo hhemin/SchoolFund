@@ -21,11 +21,11 @@ import JTable from "@/components/common/table";
 import Page from "@/components/common/pagination";
 import Tab from "@/components/common/tab";
 import { GetMonName } from "@/utils/api";
-import {Sockt} from '@/assets/js/websockt'
+import {createSocket,sendWSPush,onmessageFn,oncloseFN} from '@/assets/js/websockt'
 import {ip} from '@/utils/config'
 // import Button from '~/components/common/button.vue';
 // @name 股市
-const createSockt = new Sockt();
+// const createSockt = new Sockt();
 
 export default {
   layout: "LMenu",
@@ -113,13 +113,44 @@ export default {
       ],
       tableData:[],
       valueArray:[],
-      websodata:{}
+      websodata:{},
     };
   },
   mounted() {
+   //绑定事件
     this.getDatalist();
+    // {"last":"28365.82","high_24h":"29305.97","low_24h":"27352.58","instrument_id":"BTC-USD","open_24h":"27645.3","timestamp":"2020-12-31T01:09:58.279Z"}
+    // 接收消息
+    // const getsocketData = e => {  // 创建接收消息函数
+    //   const data = e && e.detail.data
+    //   console.log(data)
+    // }
+    // 注册监听事件
+    window.addEventListener('onmessageWS', this.getsocketData)
   },
   methods: {
+    getsocketData(e) {
+      // `{"last":"28365.82","high_24h":"29305.97","low_24h":"27352.58","instrument_id":"BTC-USD","open_24h":"27645.3","timestamp":"2020-12-31T01:09:58.279Z"}`
+        const data = e && e.detail.data
+        if(!data.hasOwnProperty('side')) return false
+        const That = this;
+        That.websodata = JSON.parse(data)
+        console.log(That.websodata)
+        if(That.websodata.instrument_id) {
+         let name = That.websodata.instrument_id.split('-')[0]
+           for(let i = 0;i<That.tableData.length;i++) {
+            if(name == That.tableData[i].currencyName) {
+              That.$set(That.tableData[i],'last',That.websodata.last)
+              That.$set(That.tableData[i],'high_24h',That.websodata.high_24h)
+              That.$set(That.tableData[i],'low_24h',That.websodata.low_24h)
+              That.$set(That.tableData[i],'open_24h',That.websodata.open_24h)
+              That.$set(That.tableData[i],'Increase',((1- That.websodata.last/That.websodata.open_24h)*100).toFixed(2))
+              break;
+            }
+          }
+        }
+      // console.log(data)
+    },
     async getDatalist() {
       try {
         let {data:{list}} = await GetMonName({
@@ -128,7 +159,6 @@ export default {
         });
         let _v = [];
         let tableArray = []
-        // console.log(list)
         list.forEach(item => {
           let tableitem = {
             currencyImgIcon: `http://${ip}`+item.currencyImgIcon,
@@ -143,51 +173,34 @@ export default {
           tableArray.push(tableitem)
         });
         this.tableData = tableArray;
-        // console.log(tableArray)
-        this.createSockfn(_v)
+        // this.createSockfn(_v)
+        // 开启websockey
+        createSocket(`ws://${ip}/webSocket/cuy-${_v}-${localStorage.getItem('user')}`)
       } catch (err) {
         console.log(err);
       }
     },
-    changevalue(data,value) {
-            
-
-    },
-    createSockfn(value) {
-      createSockt.oncreated({url:`ws://${ip}/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
-      createSockt.open();
-      let fn = createSockt.onmessage();
-      fn.onmessage = (evt) => {
-        let {data:value} = evt
-        this.websodata = JSON.parse(value)
-        if(this.websodata.instrument_id) {
-         let name = this.websodata.instrument_id.split('-')[0]
-           for(let i = 0;i<this.tableData.length;i++) {
-            if(name == this.tableData[i].currencyName) {
-              this.$set(this.tableData[i],'last',this.websodata.last)
-              this.$set(this.tableData[i],'high_24h',this.websodata.high_24h)
-              this.$set(this.tableData[i],'low_24h',this.websodata.low_24h)
-              this.$set(this.tableData[i],'open_24h',this.websodata.open_24h)
-              this.$set(this.tableData[i],'Increase',((1- this.websodata.last/this.websodata.open_24h)*100).toFixed(2))
-              break;
-            }
-          }
-        }
-        console.log(this.tableData)
+    // 开启websockey
+    // createSockfn(value) {
+    //   console.log()
+    // },
+    //关闭websocket
+    closeWebsocket(e){
+      if(createSockt){
+       createSockt.onclose();
       }
-      this.$router.afterEach(function () {
-        createSockt.onclose();
-      });
-      // this.websodata = createSockt.onmessage()
     },
     tabClick(id) {
       console.log(id);
     },
   },
+  beforeDestroy() {
+    window.removeEventListener('onmessageWS', this.getsocketData)
+    oncloseFN()
+  },
   components: {
     Page,
     Tab,
-    // Button
   },
 };
 </script>
