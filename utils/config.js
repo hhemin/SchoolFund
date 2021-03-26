@@ -1,4 +1,4 @@
-const ip = '10.101.88.52:8080';
+const ip = 'localhost:8080';
 const baseURL = `http://${ip}`;
 export {
   baseURL,
