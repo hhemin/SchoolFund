@@ -5,23 +5,30 @@
     </div> -->
     <div class="userinfo">
       <figure class="image is-128x128">
-        <img class="is-rounded" src="https://bulma.zcopy.site/images/placeholders/128x128.png"/>
+        <img
+          class="is-rounded"
+          src="https://bulma.zcopy.site/images/placeholders/128x128.png"
+        />
       </figure>
-      <div class="username">{{this.username}}</div>
+      <div class="username">{{ userName }}</div>
     </div>
     <div class="columns info">
       <card
         class="column"
         :card="item"
         v-for="item in cards"
-        :key="item.title"
+        :key="item.param"
       ></card>
+    </div>
+    <div class="holding">
+      <router-link to="/buy" style="color: #363636"> 我的持仓 </router-link>
     </div>
   </div>
 </template>
 
 <script>
 import card from "@/components/common/card";
+import { PersonInfo } from "@/utils/api";
 export default {
   layout: "LMenu",
   components: {
@@ -31,24 +38,57 @@ export default {
     return {
       cards: [
         {
-          title: "总资产",
-          amount: 1000000,
+          title: "币数",
+          amount: 0,
+          param: "currencyNumSize",
         },
         {
-          title: "浮动盈亏",
-          amount: '+2200',
+          title: "余额",
+          amount: 0,
+          param: "moneySize",
         },
         {
-          title: "总市值",
-          amount: 2200,
+          title: "收益率",
+          amount: 0,
+          param: "profit",
         },
         {
-          title: "当日参考盈亏",
-          amount: '-100',
+          title: "利润",
+          amount: 0,
+          param: "profitMoney",
         },
       ],
-      username:'巴韭特'
+      userName: "",
+      setTime: null,
     };
+  },
+  mounted() {
+    this.getPersonInfo();
+    this._personInfo();
+  },
+  methods: {
+    async _personInfo() {
+      this.setTime = setInterval(async () => {
+        this.getPersonInfo();
+      }, 5000);
+    },
+    async getPersonInfo() {
+      const res = await PersonInfo();
+      for (let key in res.data) {
+        if (key === "moneySize" || key === "profitMoney") {
+          res.data[key] = (res.data[key] - 0).toFixed(2);
+        }
+      }
+      this.userName = res.data.userName;
+      let cards = this.cards;
+      cards.forEach((item) => {
+        item.amount = res.data[item.param];
+      });
+      this.cards = cards;
+    },
+  },
+  destroyed() {
+    clearInterval(this.setTime);
   },
 };
 </script>
@@ -60,10 +100,10 @@ export default {
   display: flex;
   align-items: center;
   padding: 3rem;
-  .username{
+  .username {
     color: #fff;
     margin-left: 2rem;
-    font-size:2rem;
+    font-size: 2rem;
   }
 }
 .info {
@@ -71,7 +111,14 @@ export default {
   /* max-width: 1200px !important; */
 }
 .card.column {
-  margin:1rem;
+  margin: 1rem;
   padding: 0;
+}
+.holding {
+  text-align: center;
+  background-color: #fff;
+  height: 4rem;
+  margin: 1rem;
+  line-height: 4rem;
 }
 </style>

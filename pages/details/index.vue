@@ -40,7 +40,8 @@ import TimeK from "@/components/map/time";
 import Buy from "@/components/details/buy";
 import Sell from "@/components/details/sell";
 import Buysell from "@/components/details/buysell";
-import {ip} from "@/utils/config"
+import { ip } from "@/utils/config";
+import { NewMoney } from "@/utils/api";
 // import {Sockt} from '@/assets/js/websockt'
 // const createSockt = new Sockt();
 // @name 股市
@@ -56,20 +57,42 @@ export default {
       Buysell,
       // Info,
       changename: "k",
+      newMoney: 0,
+      setTime: null,
     };
   },
-  created() {
+  async created() {
     console.log(this.$router.params);
+  },
+  mounted() {
+    this.getNum();
   },
   methods: {
     changefn() {
       this.changename = this.changename === "k" ? "time" : "k";
       this.mapchart = this.mapchart === TimeK ? K : TimeK;
     },
+    getNum() {
+      this.setTime = setInterval(async () => {
+        const res = await NewMoney({
+          currencyName: "BTC",
+        });
+        let money = JSON.parse(res.data).last;
+        this.newMoney = money;
+      }, 2000);
+    },
+  },
+  provide() {
+    return {
+      newMoney: () => this.newMoney,
+    };
+  },
+  destroyed() {
+    clearInterval(this.setTime);
   },
   // components: {
-    // Info,
-    // Button,
+  // Info,
+  // Button,
   // },
 };
 </script>
@@ -96,8 +119,8 @@ export default {
   .rightbox {
     // height: calc(100%-20px);
     .buysell {
-       width: 100%;
-      height: 100%; 
+      width: 100%;
+      height: 100%;
       overflow: auto;
     }
     .earn {

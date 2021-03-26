@@ -185,9 +185,32 @@ export default {
     //   console.log()
     // },
     //关闭websocket
-    closeWebsocket(e){
-      if(createSockt){
-       createSockt.onclose();
+    // closeWebsocket(e){
+    //   if(createSockt){
+    //    createSockt.onclose();
+    //   }
+    // },
+    createSockfn(value) {
+      createSockt.oncreated({url:`ws://10.101.88.29:8080/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
+      createSockt.open();
+      let fn = createSockt.onmessage();
+      fn.onmessage = (evt) => {
+        let {data:value} = evt
+        this.websodata = JSON.parse(value)
+        if(this.websodata.instrument_id) {
+         let name = this.websodata.instrument_id.split('-')[0]
+           for(let i = 0;i<this.tableData.length;i++) {
+            if(name == this.tableData[i].currencyName) {
+              this.$set(this.tableData[i],'last',this.websodata.last)
+              this.$set(this.tableData[i],'high_24h',this.websodata.high_24h)
+              this.$set(this.tableData[i],'low_24h',this.websodata.low_24h)
+              this.$set(this.tableData[i],'open_24h',this.websodata.open_24h)
+              this.$set(this.tableData[i],'Increase',((1- this.websodata.last/this.websodata.open_24h)*100).toFixed(2))
+              break;
+            }
+          }
+        }
+        console.log(this.tableData)
       }
     },
     tabClick(id) {

@@ -3,7 +3,7 @@
   <!-- data:{{buydata}} -->
     <component class="earn" :is="Info" :info="buydata" classcolor="buy"></component>
     <div class="buyselltitle tc">
-      最新价:1231231
+      最新价:{{newMoney()}}
     </div>
     <component class="deficit" :is="Info" :info="selldata"></component>
   </div>
@@ -75,6 +75,7 @@ export default {
     window.removeEventListener('onmessageWS', this.getsocketData)
     oncloseFN()
   },
+  inject:['newMoney']
 };
 </script>
 
