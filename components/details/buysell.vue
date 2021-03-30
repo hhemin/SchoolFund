@@ -26,9 +26,11 @@ export default {
     };
   },
   mounted() {
+    if(localStorage.getItem('token')) {
     this.getBuySell();
      // 注册监听事件
     window.addEventListener('onmessageWS', this.getsocketData)
+    }
   },
   methods: {
     getsocketData(e) {

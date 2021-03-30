@@ -54,9 +54,11 @@ export default {
     };
   },
   mounted() {
+    if(localStorage.getItem('token')) {
     this.getKdata();
      // 注册监听事件
     window.addEventListener('onmessageWS', this.getsocketData)
+    }
   },
   methods: {
     async getsocketData(e) {

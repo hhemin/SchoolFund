@@ -25,7 +25,6 @@ import {createSocket,sendWSPush,onmessageFn,oncloseFN} from '@/assets/js/websock
 import {ip} from '@/utils/config'
 // import Button from '~/components/common/button.vue';
 // @name 股市
-// const createSockt = new Sockt();
 
 export default {
   layout: "LMenu",
@@ -39,12 +38,6 @@ export default {
         }
       ],
       tablehead: [
-        // {
-        //   label: "",
-        //   param: "currencyImgIcon",
-        //   hidemoneytip:true,// 显示图片
-        //   showimg:true,
-        // },
         {
           label: "交易对",
           // param: "currencyName",
@@ -84,10 +77,6 @@ export default {
           label: "24H开盘价",
           param: "open_24h",
         },
-        // {
-        //   label: "24H成交额",
-        //   param: "Turnover",
-        // },
       ],
       tabData: [
         { id: 1, name: "涨幅榜" },
@@ -118,15 +107,13 @@ export default {
   },
   mounted() {
    //绑定事件
+   if(localStorage.getItem('token')) {
     this.getDatalist();
-    // {"last":"28365.82","high_24h":"29305.97","low_24h":"27352.58","instrument_id":"BTC-USD","open_24h":"27645.3","timestamp":"2020-12-31T01:09:58.279Z"}
-    // 接收消息
-    // const getsocketData = e => {  // 创建接收消息函数
-    //   const data = e && e.detail.data
-    //   console.log(data)
-    // }
-    // 注册监听事件
-    window.addEventListener('onmessageWS', this.getsocketData)
+     // 注册监听事件
+     window.addEventListener('onmessageWS', this.getsocketData)
+   }else {
+    window.$nuxt.$router.push({path:'login'})
+   }
   },
   methods: {
     getsocketData(e) {
@@ -149,7 +136,7 @@ export default {
             }
           }
         }
-      // console.log(data)
+        console.log(123123213123131232)
     },
     async getDatalist() {
       try {
@@ -191,9 +178,11 @@ export default {
     //   }
     // },
     createSockfn(value) {
-      createSockt.oncreated({url:`ws://10.101.88.29:8080/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
-      createSockt.open();
-      let fn = createSockt.onmessage();
+      let url = 'ws://'+ip+'/webSocket/cuy-'+value+'-'+localStorage.getItem('user');
+      createSocket(url)
+      // createSockt.oncreated({url:`ws://${ip}/webSocket/cuy-${value}-${localStorage.getItem('user')}`})()
+      // createSocket.open(url);
+      let fn = createSocket.onmessage();
       fn.onmessage = (evt) => {
         let {data:value} = evt
         this.websodata = JSON.parse(value)

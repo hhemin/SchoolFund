@@ -63,8 +63,10 @@ export default {
     };
   },
   mounted() {
+    if(localStorage.getItem('token')) {
     this.getPersonInfo();
     this._personInfo();
+    }
   },
   methods: {
     async _personInfo() {

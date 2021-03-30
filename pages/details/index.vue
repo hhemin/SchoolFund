@@ -65,7 +65,9 @@ export default {
     console.log(this.$router.params);
   },
   mounted() {
+    if(localStorage.getItem('token')) {
     this.getNum();
+    }
   },
   methods: {
     changefn() {

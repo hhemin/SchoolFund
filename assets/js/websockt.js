@@ -55,6 +55,7 @@ const connecting = message => {
     if (Socket.readyState === 0) {
       connecting(message)
     } else {
+      console.log('111')
       Socket.send(message)
     }
   }, 15000)
@@ -69,6 +70,7 @@ export const sendWSPush = ({message = ''} = {}) => {
     Socket.close()
     createSocket()
   } else if (Socket.readyState === 1) {
+    console.log('2222')
     Socket.send(JSON.stringify(message))
   } else if (Socket.readyState === 0) {
     connecting(message)
@@ -88,7 +90,9 @@ const oncloseWS = () => {
 export const oncloseFN = (mess = 'close') => {
   console.log(mess)
   clearInterval(setIntervalWesocketPush)
-  Socket.send(mess)
+  if(window.localStorage.getItem('token')) {
+    Socket.send(mess)
+  }
   Socket = null
 }
 /**发送心跳
@@ -97,8 +101,12 @@ export const oncloseFN = (mess = 'close') => {
  */
 export const sendPing = (time = 30000, ping = 'ping') => {
   clearInterval(setIntervalWesocketPush)
+  console.log(44444)
   Socket.send(ping)
   setIntervalWesocketPush = setInterval(() => {
+    console.log(55555)
     Socket.send(ping)
   }, time)
 }
+
+// if(window.localStorage.getItem('token')) {}

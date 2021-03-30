@@ -42,6 +42,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     '@nuxtjs/bulma',
+    // '@nuxtjs/auth'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

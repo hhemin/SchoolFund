@@ -57,8 +57,10 @@ export default {
     Message
   },
   mounted(){
+    if(localStorage.getItem('token')) {
     this._holdCurrency()
     this.getHold()
+    }
   },
   methods:{
     async _holdCurrency(){
