@@ -130,6 +130,7 @@ export default {
   },
   methods: {
     getsocketData(e) {
+      console.log(e)
       // `{"last":"28365.82","high_24h":"29305.97","low_24h":"27352.58","instrument_id":"BTC-USD","open_24h":"27645.3","timestamp":"2020-12-31T01:09:58.279Z"}`
         const data = e && e.detail.data
         if(!data.hasOwnProperty('side')) return false
