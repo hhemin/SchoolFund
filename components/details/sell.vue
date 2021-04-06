@@ -10,15 +10,16 @@
       </p>
     </div>
     <footer class="card-footer">
-       <div class="card-footer-item">全部出</div>
+       <div class="card-footer-item" @click="sellall">全部卖出</div>
        <div :class="['card-footer-item',notClick ? 'notclick' : '']" @click="sellCurrency">卖出</div>
     </footer>
   </div>
 </template>
 
 <script>
-import { Sell } from '@/utils/api';
+import { HoldCurrency } from '@/utils/api';
 import { Message } from 'element-ui';
+import {TS} from '@/utils/api'
 export default {
   data() {
     return {
@@ -28,8 +29,6 @@ export default {
   },
   methods:{
     async sellCurrency(){
-      console.log(typeof this.currencyNum)
-      console.log(this.currencyNum)
       this.notClick = true;
       if (!this.currencyNum) {
         Message.error('请输入币数')
@@ -37,17 +36,32 @@ export default {
         return false;
       }
       try {
-        const res = await Sell({
-          currencyName: "ETH",
+        const res = await HoldCurrency({
+          currencyName: localStorage.getItem('buyname'),
           currencyNum:this.currencyNum,
         });
-        //Message.success(res.message)
+        Message.success(res.message||'卖出成功啦～')
         this.notClick = false;
       } catch (e) {
         console.log(e)
         this.notClick = false
       }
-      
+    },
+    async sellall() {
+      await HoldCurrency().then((res) => {
+        let {data:datavalue} = res;
+        let num = null;
+        for(let i = 0;datavalue.length>i;i++) {
+          if(datavalue[i].currency == localStorage.getItem('buyname')) {
+            num = datavalue[i].holdCurrencyNum
+          }
+        }
+        if(!num) {
+          Message.error('你还没持有哦～');
+        }else {
+          this.currencyNum = num;
+        }
+      })
     }
   },
   components:{
@@ -68,5 +82,8 @@ export default {
 // :-ms-input-placeholder { color:#f4f9ff; } /* ie */
 .notclick {
   pointer-events: none;
+}
+.card-footer-item:active {
+  background-color: #2d374c;
 }
 </style>

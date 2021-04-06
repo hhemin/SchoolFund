@@ -55,13 +55,13 @@ export default {
   },
   mounted() {
     if(localStorage.getItem('token')) {
-     this.getKdata(); // 加载k线 当天前的数据
+    this.getKdata();
      // 注册监听事件
-    //  window.addEventListener('onmessageWST', this.getsocket)
+     window.addEventListener('onmessageWS', this.getsocketK)
     }
   },
   methods: {
-    async getsocket(e) {
+    async getsocketK(e) {
       // console.log(e) socket打印的数据
       const data = e && e.detail.data
       if(!data.hasOwnProperty('side')) return false
@@ -81,26 +81,23 @@ export default {
         currencyName:localStorage.getItem('buyname')
       });
       this.chartData.rows = data.reverse();
-      // const That = this;
-      // if (data) {
-        // let socketmessage = this.getFluter()
-        // console.log('>>>>>>>>>>>>>>>>>>')
-        // console.log(socketmessage)
-        // console.log('>>>>>>>>>>>>>>>>>>')
-        // socketmessage.onmessage = async (evt) => {
-        //   let { data } = evt;
-        //   let _v = await That.getKObjFn(data);// 处理K data 中间处理
-        //   That.Obj.time  = That.Obj.time.split(' ')[0]
-        //   _v.time = _v.time.split(' ')[0]
-        //   let timekey = That.chartData.rows[That.chartData.rows.length -1].time
-        //   if(timekey === _v.time) {
-        //     That.chartData.rows[That.chartData.rows.lenght -1] = this.Obj
-        //   }else {
-        //     That.chartData.rows.push(_v)
-        //   }
-        //   console.log(_v)
-        // }
-      // }
+      const That = this;
+      if (data) {
+        let socketmessage = this.getFluter()
+        socketmessage.onmessage = async (evt) => {
+          let { data } = evt;
+          let _v = await That.getKObjFn(data);// 处理K data 中间处理
+          That.Obj.time  = That.Obj.time.split(' ')[0]
+          _v.time = _v.time.split(' ')[0]
+          let timekey = That.chartData.rows[That.chartData.rows.length -1].time
+          if(timekey === _v.time) {
+            That.chartData.rows[That.chartData.rows.lenght -1] = this.Obj
+          }else {
+            That.chartData.rows.push(_v)
+          }
+          console.log(_v)
+        }
+      }
     },
     // 处理K data 中间处理
     getKObjFn(datav) {
@@ -144,7 +141,8 @@ export default {
       actionsFn.call(this);
     },
     getFluter() {
-      console.log('>>>>>>>>>>>>>>>>>>PPPPPPPPPP')
+      // const That = this;
+      // let _value = ''
       createSocket( `ws://${ip}/KWebSocket/${localStorage.getItem('buyname')}-86400-${localStorage.getItem("user") + 3}`)
       // createSockt.oncreated({
       //   // 3600 
@@ -153,13 +151,13 @@ export default {
       //   }`,
       // })();
       // createSockt.open();
-      // let fn = createSocket.onmessage;
-      // return fn
+      let fn = createSocket.onmessage;
+      return fn
     },
   },
   beforeDestroy() {
-    window.removeEventListener('onmessageWST', this.getsocketData)
-    // oncloseFN()
+    window.removeEventListener('onmessageWS', this.getsocketData)
+    oncloseFN()
   },
 };
 </script>

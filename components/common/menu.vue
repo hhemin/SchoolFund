@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar headerColor" role="navigation" aria-label="main navigation">
+  <nav class="navbar headerColor" role="navigation" aria-label="main navigation" v-show="user">
     <div class="navbar-brand">
-      <a class="navbar-item" href>
+      <a class="navbar-item" href="/">
         <img
           src="https://cdn.jsdelivr.net/gh/vmlite/s/bulma/images/bulma-logo.png"
           width="112"
@@ -52,8 +52,8 @@
           <div class="user-info" v-else>
             <img class="is-rounded" src="https://bulma.zcopy.site/images/placeholders/32x32.png">
             <span>{{user}}</span>
+            <button class="button is-small is-link" style="margin-left:10px" @click="loginout">退出登录</button>
           </div>
-          
         </div>
       </div>
     </div>
@@ -81,6 +81,17 @@ export default {
       user:true
     };
   },
+  watch: {
+    '$route' (newder,older) {
+     if(newder.name === 'index') {
+      location.reload()
+     }
+		console.log('路由变化')
+		console.log(newder)
+    console.log(older)
+	}
+
+  },
   created(){
     
   },
@@ -97,6 +108,14 @@ export default {
     openmune() {
       this.active = !this.active;
     },
+    loginout() {
+      let _key = confirm('你要退出嘛？哟哟哟哟哟～')
+      if(_key) {
+        this.$router.push('/login')
+        localStorage.removeItem('token')
+        this.user = false
+      }
+    }
   },
 };
 </script>

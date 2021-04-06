@@ -77,7 +77,7 @@ export default {
     getNum() {
       this.setTime = setInterval(async () => {
         const res = await NewMoney({
-          currencyName: "BTC",
+          currencyName: localStorage.getItem('buyname'),
         });
         let money = JSON.parse(res.data).last;
         this.newMoney = money;

@@ -39,7 +39,7 @@ export default {
     async getData() {
       let { data } = await Kdata({
         granularity:300,// 1:小时3600 一天：86400 
-        currencyName:'BTC'
+        currencyName:localStorage.getItem('buyname')
       });
       let arr = []
       data.forEach(element => {
@@ -50,7 +50,7 @@ export default {
         arr.push(tableitem)
       });
       console.log(arr)
-      this.chartData.rows = arr
+      this.chartData.rows = arr.reverse()
       // console.log(data)
     }
   }

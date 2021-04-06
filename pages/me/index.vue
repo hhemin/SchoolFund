@@ -64,8 +64,8 @@ export default {
   },
   mounted() {
     if(localStorage.getItem('token')) {
-    this.getPersonInfo();
-    this._personInfo();
+      this.getPersonInfo();
+      this._personInfo();
     }
   },
   methods: {
@@ -87,6 +87,8 @@ export default {
         item.amount = res.data[item.param];
       });
       this.cards = cards;
+      console.log('hkjhkhjkhjkhkhjkhkjhjkhkjhhkhjkh')
+      console.log(res)
     },
   },
   destroyed() {

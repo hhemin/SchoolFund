@@ -49,7 +49,7 @@ export default {
       }
       try {
         const res = await Buy({
-          currencyName: "ETH",
+          currencyName: localStorage.getItem('buyname'),
           money:money,
         });
         Message.success(res.message)
@@ -88,5 +88,9 @@ input:-moz-placeholder {
 }
 .notclick {
   pointer-events: none;
+}
+
+.card-footer-item:active {
+  background-color: #2d374c;
 }
 </style>

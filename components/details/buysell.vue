@@ -3,7 +3,7 @@
   <!-- data:{{buydata}} -->
     <component class="earn" :is="Info" :info="buydata" classcolor="buy"></component>
     <div class="buyselltitle tc">
-      最新价:{{newMoney()}}
+     {{name}} 最新价:{{newMoney()}}
     </div>
     <component class="deficit" :is="Info" :info="selldata"></component>
   </div>
@@ -22,7 +22,8 @@ export default {
     return {
       Info,
       buydata:[],
-      selldata:[]
+      selldata:[],
+      name:'',
     };
   },
   mounted() {
@@ -30,16 +31,17 @@ export default {
     this.getBuySell();
      // 注册监听事件
     window.addEventListener('onmessageWS', this.getsocketData)
+    this.name = localStorage.getItem('buyname')
     }
   },
   methods: {
     getsocketData(e) {
       const data = e && e.detail.data
-      if(!data.hasOwnProperty('side')) return false
+      // if(!data.hasOwnProperty('side')) return false
       this.formatData(JSON.parse(data))
     },
     getBuySell() {
-      createSocket(`ws://${ip}/webSocket/buy-BTC-${localStorage.getItem("user")+2}`)
+      createSocket(`ws://${ip}/webSocket/buy-${localStorage.getItem('buyname')}-${localStorage.getItem("user")+2}`)
       // createSockt.oncreated({
       //   url: `ws://${ip}/webSocket/buy-BTC-${localStorage.getItem(
       //     "user"

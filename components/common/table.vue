@@ -9,7 +9,7 @@
         {{ item.label }}
       </div>
     </div>
-    <div class="trade-item" v-for="(item, index) in tablebody" :key="index" @click="tradeItemClick(item.id)">
+    <div class="trade-item" v-for="(item, index) in tablebody" :key="index" @click="tradeItemClick(item.id,item)">
       <div class="main" v-for="(headitem, index) in tablehead" :key="index">
         <img :src="item[headitem.param]" alt="币图" v-if="headitem.showimg"/>
         <p v-if="headitem.param" class="label-name" :class="headitem.param === 'Increase'? item.Increase[0] === '-' ? 'fall' : 'rise':''">
@@ -58,7 +58,8 @@ export default {
     return {};
   },
   methods: {
-    tradeItemClick(id) {
+    tradeItemClick(id,item) {
+      window.localStorage.setItem('buyname',item.currencyName || item.currency)
       this.$router.push({ path: "details", query: { id } });
     },
   },

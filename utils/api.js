@@ -1,5 +1,17 @@
 import request from './request';
 
+const strategyBuy = async() => {
+  return await request.postFn({
+    url:'/api/web/strategy/strategyBuy',
+  })
+}
+
+const strategySell = async() => {
+  return await request.postFn({
+    url:'/api/web/strategy/strategySell',
+  })
+}
+
 const Login = async (data) => {
   return await request.postFn({
     url:'/api/web/login',
@@ -26,7 +38,8 @@ const GetMonName = async (data) => {
 
 const TS = async ({id = ''} ={}) => {
   return await request.getFn({
-    url:'/api/admin/holdCurrency/query/'+id
+    url:'/api/admin/holdCurrency/query/'+id,
+    tokenbool:true
   })
 }
 // 线图api 和 当日线图
@@ -81,6 +94,8 @@ const PersonInfo = async () =>　{
 }
 
 export {
+  strategyBuy,
+  strategySell,
   Login,
   Register,
   GetMonName,
