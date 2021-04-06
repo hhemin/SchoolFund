@@ -46,6 +46,14 @@ const onmessageWS = e => {
   }))
 }
 
+const onmessageWST = e => {
+  window.dispatchEvent(new CustomEvent('onmessageWST', {
+    detail: {
+      data: e.data
+    }
+  }))
+}
+
 /**
  * 发送数据但连接未建立时进行处理等待重发
  * @param {any} message 需要发送的数据
